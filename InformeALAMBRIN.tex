@@ -21,14 +21,51 @@
 \tableofcontents
 
 \newpage
-\section{Modelo E-R}
+\section{Modelo Entidad Relaci\'on}
+  \subsection{Diagrama}
   \includegraphics[width=10cm]{ModeloE-R/ModeloE-R.png}
   
   \subsection{Hip\'otesis}
-  \begin{enumerate}
-    \item Cada m\'ovil de exterior posee un id que lo identifica un\'ivocamente. 
-    \item Un programa puede ser en vivo o puede ser grabado.
-  \end{enumerate}
+    \begin{enumerate}
+      \item Cada m\'ovil de exterior posee un id que lo identifica un\'ivocamente. 
+      \item Un programa puede ser en vivo o puede ser grabado.
+    \end{enumerate}
+    
+  \subsection{Diccionario}
+    \subsubsection{Entidades}
+    \begin{flushleft}
+      \begin{large} \bf{Espacio} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Un espacio es una divisi\'on del horario de transmisi\'on del canal.} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- D\'ia & El d\'ia en el que se emite el espacio. \\
+	\hline \hline
+	- Horario & El horario en el que se emite el espacio. \\
+	\hline \hline
+	- Duraci\'on & La duraci\'on del espacio.\\
+	\hline \hline
+	- Precio & El precio por segundo en el aire del espacio.\\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- D\'ia + Horario} \\
+	\hline
+	\multicolumn{2}{|l|}{Bla bla bla} \\
+	\hline	
+      \end{tabular}
+
+    \begin{flushleft}
+      \begin{large} \bf{Asi con todos........} \end{large}
+    \end{flushleft}
+   
+    \subsubsection{Interrelaciones}
+
 
 \newpage
 \section{Transformaci\'on del Modelo E-R a un Modelo Relacional}
@@ -37,6 +74,6 @@
 \appendix
 \newpage
 \section{Enunciado}
-\includepdf[pages=1-2, scale=0.9, pagecommand={\thispagestyle{plain}}]{EnunciadoBD.pdf}
+\includepdf[pages=1-2, scale=0.8, pagecommand={\thispagestyle{plain}}]{EnunciadoBD.pdf}
 
 \end{document}
