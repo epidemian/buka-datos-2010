@@ -1,0 +1,92 @@
+\documentclass[a4paper,10pt,landscape]{article}
+
+\usepackage[landscape]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz-er2}
+
+\begin{document}
+
+\thispagestyle{empty}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\tikzstyle{every entity} = [top color=white, bottom color=blue!30, 
+                            draw=blue!50!black!100, drop shadow]
+\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex, 
+                                 shadow yshift=-.7ex}]
+\tikzstyle{every attribute} = [top color=white, bottom color=yellow!20, 
+                               draw=yellow, node distance=1cm, drop shadow]
+\tikzstyle{every relationship} = [top color=white, bottom color=red!20, 
+                                  draw=red!50!black!100, drop shadow]
+\tikzstyle{every isa} = [top color=white, bottom color=green!20, 
+                         draw=green!50!black!100, drop shadow]
+
+\centering
+\scalebox{.87}{
+\begin{tikzpicture}[node distance=2.5cm, every edge/.style={link}]
+  \node[entity] (programacion) {Programaci\'on};
+  \node[attribute] (horario) [left=of programacion] {Horario} edge (programacion);
+  \node[attribute] (canal) [above of=programacion] {\key{Canal}} edge (programacion);
+  
+  \node[relationship] (se divide) [right of=programacion, node distance=9em] {Se divide} edge node[auto,swap] {[0..1]} (programacion);
+  
+  \node[entity] (espacio) [right of=se divide, node distance=9em] {Espacio} edge node[auto,swap] {[0..*]} (se divide);
+  \node[attribute] (duracion) [above left=of espacio] {Duracion} edge (espacio);
+  \node[attribute] (dia) [below right=of espacio] {\key{Dia}} edge (espacio);
+  \node[attribute] (hora) [right=of espacio] {\key{Horario}} edge (espacio);
+  \node[attribute] (precio) [above right=of espacio] {Precio} edge (espacio);
+  
+  \node[relationship] (se le asigna) [below of=espacio] {Se le asigna} edge node[auto,swap] {[0..*]} (espacio);
+  
+  \node[entity] (programa) [below of=se le asigna] {Programa} edge node[auto,swap] {[0..1]} (se le asigna);
+  \node[attribute] (nombre) [below left=of programa] {\key{Nombre}} edge (programa);
+  \node[attribute] (duracion) [below right=of programa] {Duracion} edge (programa);
+  \node[attribute] (clase) [above right=of programa] {Clase} edge (programa);
+  
+  \node[entity] (programa en vivo) [left=of programa] {Programa en vivo} edge (programa);
+  
+  \node[relationship] (utiliza) [above of=programa en vivo] {Utiliza} edge node[auto,swap] {[0..*]} (programa en vivo);
+  
+  \node[entity] (movil exterior) [left of=utiliza, node distance=9em] {Movil exterior} edge node[auto,swap] {[0..*]} (utiliza);
+  \node[attribute] (caracteristica) [below of=movil exterior] {Caracteristica} edge (movil exterior);
+  \node[attribute] (id movil) [above of=movil exterior] {\key{Id movil}} edge (movil exterior);
+    
+  \node[relationship] (grabado en) [below of=programa en vivo] {Grabado en} edge node[auto,swap] {[0..*]} (programa en vivo);
+  
+  \node[entity] (estudio) [left of=grabado en, node distance=9em] {Estudio} edge node[auto,swap] {[1..*]} (grabado en);
+  \node[attribute] (capacidad) [below of=estudio] {Capacidad} edge (estudio);
+  \node[attribute] (id estudio) [above of=estudio] {\key{Id Estudio}} edge (estudio);
+  
+  \node[entity] (programa grabado) [right=of programa] {Programa grabado} edge (programa);
+  
+  \node[relationship] (es provisto) [above of=programa grabado] {Es provisto} edge node[auto,swap] {[0..*]}(programa grabado);
+  
+  \node[entity] (productor independiente) [right=of es provisto] {Productor independiente} edge node[auto,swap] {[0..1]} (es provisto);
+  \node[attribute] (nro cuit) [above of=productor independiente] {\key{Nro cuit}} edge (productor independiente);
+  \node[attribute] (razon social) [below of=productor independiente] {Razon social} edge (productor independiente);
+  
+  \node[ident relationship] (contiene) [below of=programa] {Contiene} edge [->] node[auto,swap] {[1..*]} (programa);
+  
+  \node[weak entity] (tanda) [below of=contiene] {Tanda} edge [total] node[auto,swap] {[0..*]} (contiene);
+  \node[attribute] (dia) [below =of tanda] {Dia} edge (tanda);
+  \node[attribute] (hora) [left =of tanda] {Hora} edge (tanda);
+  \node[attribute] (nro tanda) [above right =of tanda] {\discriminator{Nro tanda}} edge (tanda);
+    
+  \node[relationship] (se publicita) [right=of tanda] {Se publicita} edge node[auto,swap] {[1..*]} (tanda);
+  
+  \node[entity] (anuncio) [below of=se publicita] {Anuncio} edge node[auto,swap] {[1..*]} (se publicita);
+  \node[attribute] (nro orden) [below right=of anuncio] {Nro orden} edge (anuncio);
+  \node[attribute] (prod ofrecido) [above right=of anuncio] {Prod ofrecido} edge (anuncio);
+  \node[attribute] (titulo) [below=of anuncio] {\key{Titulo}} edge (anuncio);
+  \node[attribute] (duracion) [right=of anuncio] {Duracion} edge (anuncio);
+   
+  \node[relationship] (auspiciado) [left of=anuncio, node distance=9em] {Auspiciado} edge node[auto,swap] {[1..*]} (anuncio);
+  
+  \node[entity] (anunciante) [left=of auspiciado] {Anunciante} edge node[auto,swap] {[0..1]} (auspiciado);
+  \node[attribute] (nro cuenta) [below left=of anunciante] {\key{Nro cuenta}} edge (anunciante);
+  \node[attribute] (razon social) [below right=of anunciante] {Razon social} edge (anunciante);
+  \node[attribute] (domicilio) [left=of anunciante] {Domicilio} edge (anunciante);
+  \node[attribute] (telefono) [below=of anunciante] {Telefono} edge (anunciante);
+\end{tikzpicture}
+}
+
+\end{document}
