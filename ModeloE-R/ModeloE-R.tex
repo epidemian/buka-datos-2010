@@ -61,24 +61,22 @@
   \node[attribute] (razon social) [below of=productor independiente] {Raz\'on social} edge (productor independiente);
   
   \node[ident relationship] (se le asigna2) [right of=espacio, node distance=9em] {Se le asigna} edge [->] node[auto,swap] {[1..1]} (espacio);
-  \node[relationship] (contiene) [above right=of programa] {Contiene} edge node[auto,swap] {[1..*]} (programa);
     
-  \node[weak entity] (tanda) [right of=se le asigna2, node distance=10em] {Tanda} edge node[auto,swap] {[0..*]} (contiene);
-  \draw (tanda) edge [total] node[auto,swap] {[0..*]} (se le asigna2);
+  \node[weak entity] (tanda) [right of=se le asigna2, node distance=10em] {Tanda} edge [total] node[auto,swap] {[0..*]} (se le asigna2);
   \node[attribute] (hora tanda) [above=of tanda] {\discriminator{Hora tanda}} edge (tanda);
   \node[attribute] (nro tanda) [right=of tanda] {\discriminator{Nro tanda}} edge (tanda);
     
-  \node[relationship] (se publicita) [below right of=tanda, node distance=10em] {Se publicita} edge node[auto,swap] {[1..*]} (tanda);
+  \node[relationship] (se publicita) [below of=tanda, node distance=8em] {Se publicita} edge node[auto,swap] {[1..*]} (tanda);
   \node[attribute] (nro orden) [left of=se publicita, node distance=9em] {Nro orden} edge (se publicita);
   
-  \node[entity] (anuncio) [below left of=se publicita, node distance=10em] {Anuncio} edge node[auto,swap] {[1..*]} (se publicita);
+  \node[entity] (anuncio) [below left of=se publicita, node distance=8em] {Anuncio} edge node[auto,swap] {[1..*]} (se publicita);
   \node[attribute] (producto ofrecido) [below right=of anuncio] {Producto ofrecido} edge (anuncio);
-  \node[attribute] (titulo) [left=of anuncio] {\key{T\'itulo}} edge (anuncio);
+  \node[attribute] (titulo) [left of=anuncio, node distance=6em] {\key{T\'itulo}} edge (anuncio);
   \node[attribute] (duracion) [right=of anuncio] {Duraci\'on} edge (anuncio);
    
-  \node[relationship] (auspiciado) [below left of=anuncio, node distance=9em] {Auspiciado} edge node[auto,swap] {[1..*]} (anuncio);
+  \node[relationship] (auspiciado) [below of=anuncio, node distance=8em] {Auspiciado} edge node[auto,swap] {[1..*]} (anuncio);
   
-  \node[entity] (anunciante) [below right of=auspiciado, node distance=10em] {Anunciante} edge node[auto,swap] {[0..1]} (auspiciado);
+  \node[entity] (anunciante) [below right of=auspiciado, node distance=8em] {Anunciante} edge node[auto,swap] {[0..1]} (auspiciado);
   \node[attribute] (nro cuenta) [below right=of anunciante] {\key{Nro cuenta}} edge (anunciante);
   \node[attribute] (razon social) [right=of anunciante] {Raz\'on social} edge (anunciante);
   \node[attribute] (domicilio) [above right=of anunciante] {Domicilio} edge (anunciante);
