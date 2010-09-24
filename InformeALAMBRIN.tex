@@ -7,7 +7,15 @@
 \usepackage{appendix}
 \usepackage{pdfpages}
 \usepackage{fancyhdr}
+\usepackage{ulem}
 \pagestyle{fancy}
+
+\def\dashuline{\bgroup 
+  \ifdim\ULdepth=\maxdimen  % Set depth based on font, if not set already
+   \settodepth\ULdepth{(j}\advance\ULdepth.4pt\fi
+  \markoverwith{\kern.15em
+  \vtop{\kern\ULdepth \hrule width .3em}%
+  \kern.15em}\ULon}
 
 \begin{document}
 
@@ -23,8 +31,9 @@
 \newpage
 \section{Modelo Entidad Relaci\'on}
   \subsection{Diagrama}
-  \includegraphics[width=10cm]{ModeloE-R/ModeloE-R.png}
-  
+    \begin{center}
+      \includegraphics[width=18cm, height=12cm, angle=-90]{ModeloE-R/ModeloE-R.png}   
+    \end{center}
   \subsection{Hip\'otesis}
     \begin{enumerate}
       \item Cada m\'ovil de exterior posee un id que lo identifica un\'ivocamente. 
@@ -139,11 +148,72 @@
 
 \newpage
 \section{Transformaci\'on del Modelo E-R a un Modelo Relacional}
+  \subsection{Esquema resultante de la transformaci\'on}
+    \begin{flushleft}
+    {\bf{ESPACIO}} (\underline{D\'ia}, \underline{Horario}, Duraci\'on, Precio, \dashuline{Nombre})
+    \newline
+    {\bf{PROGRAMA}} (\underline{Nombre}, Duraci\'on, Clase, Tipo)
+    \newline
+    {\bf{TANDA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda})
+    \newline
+    {\bf{SE\_PUBLICITA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda}, \underline{T\'itulo}, \underline{Nro orden})    
+    \newline
+    {\bf{ANUNCIO}} (\underline{T\'itulo}, Duraci\'on, Producto ofrecido, \dashuline{Nro cuenta})
+    \newline
+    {\bf{ANUNCIANTE}} (\underline{Nro cuenta}, Raz\'on social, Tel\'efono, Domicilio)
+    \newline
+    {\bf{PROGRAMA\_GRABADO}} (\underline{Nombre}, \dashuline{Nro cuit})
+    \newline
+    {\bf{PRODUCTOR\_INDEPENDIENTE}} (\underline{Nro cuit}, Raz\'on social)
+    \newline
+    {\bf{EMITIDO\_EN}} (\underline{Nombre}, \underline{Id estudio})
+    \newline    
+    {\bf{ESTUDIO}} (\underline{Id estudio}, Capacidad)
+    \newline
+    {\bf{UTILIZA}} (\underline{Nombre}, \underline{Id m\'ovil})
+    \newline
+    {\bf{MOVIL\_EXTERIOR}} (\underline{Id m\'ovil}, Caracter\'istica)
+    \newline
+    \end{flushleft}
+
+  \subsection{Restricciones adicionales}
+    \begin{itemize}
+     \item ESPACIO.Nombre puede ser nulo
+     \item PROGRAMA.Nombre puede no estar en ESPACIO.Nombre
+     
+     \item PROGRAMA.Dia y PROGRAMA.Horario puede no estar en TANDA.D\'ia y TANDA.Horario, respectivamente
+     \item TANDA.D\'ia y TANDA.Horario deben estar en PROGRAMA.D\'ia y PROGRAMA.Horario, respectivamente
+     
+     \item TANDA.D\'ia, TANDA.Horario y TANDA.Hora tanda debe estar en \newline SE\_PUBLICITA.D\'ia, SE\_PUBLICITA.Horario 
+      y SE\_PUBLICITA.Hora, respectivamente.
+     \item SE\_PUBLICITA.D\'ia, SE\_PUBLICITA.Horario y SE\_PUBLICITA.Hora \newline tanda debe estar en TANDA.D\'ia, TANDA.Horario 
+      y TANDA.Hora, respectivamente.
+     \item ANUNCIO.T\'itulo debe estar en SE\_PUBLICITA.T\'itulo
+     \item SE\_PUBLICITA.T\'itulo debe estar en ANUNCIO.T\'itulo
+     
+     \item ANUNCIO.Nro cuenta puede ser nulo
+
+     \item PROGRAMA\_GRABADO.Nombre debe estar en PROGRAMA.Nombre
+     \item PROGRAMA.Nombre puede no estar PROGRAMA\_GRABADO.Nombre
+
+     \item PROGRAMA\_GRABADO.Nro cuit puede ser nulo
+     \item PRODUCTOR\_INDEPENDIENTE.Nro cuit puede no esta en PROGRAMA\_GRABADO.Nro cuit
+
+     \item PROGRAMA.Nombre puede no estar en UTILIZA.Nombre
+     \item MOVIL\_EXTERIOR.Id m\'ovil puede no estar en UTILIZA.Id m\'ovil
+     \item UTILIZA.Nombre debe estar en PROGRAMA.Nombre
+     \item UTILIZA.Id m\'ovil debe estar en MOVIL\_EXTERIOR.Id m\'ovil
+
+     \item PROGRAMA.Nombre puede no estar en EMITIDO\_EN.Nombre
+     \item ESTUDIO.Id estudio debe estar en UTILIZA.estudio
+     \item EMITIDO\_EN.Nombre debe estar en PROGRAMA.Nombre
+     \item EMITIDO\_EN.Id estudio debe estar en MOVIL\_EXTERIOR.Id estudio
+    \end{itemize}
 
 %APENDICES
 \appendix
 \newpage
 \section{Enunciado}
-\includepdf[pages=1-2, scale=0.8, pagecommand={\thispagestyle{plain}}]{EnunciadoBD.pdf}
+  \includepdf[pages=1-2, scale=0.8, pagecommand={\thispagestyle{plain}}]{EnunciadoBD.pdf}
 
 \end{document}
