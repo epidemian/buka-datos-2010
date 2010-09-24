@@ -148,34 +148,55 @@
 
 \newpage
 \section{Transformaci\'on del Modelo E-R a un Modelo Relacional}
-  \subsection{Esquema resultante de la transformaci\'on}
+  \subsection{Diagrama resultante de la transformaci\'on}
     \begin{flushleft}
-    {\bf{ESPACIO}} (\underline{D\'ia}, \underline{Horario}, Duraci\'on, Precio, \dashuline{Nombre})
-    \newline
-    {\bf{PROGRAMA}} (\underline{Nombre}, Duraci\'on, Clase, Tipo)
-    \newline
-    {\bf{TANDA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda})
-    \newline
-    {\bf{SE\_PUBLICITA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda}, \underline{T\'itulo}, \underline{Nro orden})    
-    \newline
-    {\bf{ANUNCIO}} (\underline{T\'itulo}, Duraci\'on, Producto ofrecido, \dashuline{Nro cuenta})
-    \newline
-    {\bf{ANUNCIANTE}} (\underline{Nro cuenta}, Raz\'on social, Tel\'efono, Domicilio)
-    \newline
-    {\bf{PROGRAMA\_GRABADO}} (\underline{Nombre}, \dashuline{Nro cuit})
-    \newline
-    {\bf{PRODUCTOR\_INDEPENDIENTE}} (\underline{Nro cuit}, Raz\'on social)
-    \newline
-    {\bf{EMITIDO\_EN}} (\underline{Nombre}, \underline{Id estudio})
-    \newline    
-    {\bf{ESTUDIO}} (\underline{Id estudio}, Capacidad)
-    \newline
-    {\bf{UTILIZA}} (\underline{Nombre}, \underline{Id m\'ovil})
-    \newline
-    {\bf{MOVIL\_EXTERIOR}} (\underline{Id m\'ovil}, Caracter\'istica)
-    \newline
+      {\bf{ESPACIO}} (\underline{D\'ia}, \underline{Horario}, Duraci\'on, Precio, \dashuline{Nombre})
+    \end{flushleft} 
+ 
+    \begin{flushleft}
+      {\bf{PROGRAMA}} (\underline{Nombre}, Duraci\'on, Clase, Tipo)
+    \end{flushleft} 
+
+    \begin{flushleft}
+      {\bf{TANDA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda})
+    \end{flushleft} 
+
+    \begin{flushleft}
+      {\bf{SE\_PUBLICITA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda}, \underline{T\'itulo}, \underline{Nro orden})    
     \end{flushleft}
 
+    \begin{flushleft}
+      {\bf{ANUNCIO}} (\underline{T\'itulo}, Duraci\'on, Producto ofrecido, \dashuline{Nro cuenta})
+    \end{flushleft}
+
+    \begin{flushleft}
+      {\bf{ANUNCIANTE}} (\underline{Nro cuenta}, Raz\'on social, Tel\'efono, Domicilio)
+    \end{flushleft}
+
+    \begin{flushleft}
+      {\bf{PROGRAMA\_GRABADO}} (\underline{Nombre}, \dashuline{Nro cuit})
+    \end{flushleft}
+   
+    \begin{flushleft}
+      {\bf{PRODUCTOR\_INDEPENDIENTE}} (\underline{Nro cuit}, Raz\'on social)
+    \end{flushleft}
+  
+    \begin{flushleft}
+      {\bf{EMITIDO\_EN}} (\underline{Nombre}, \underline{Id estudio})
+    \end{flushleft}
+  
+    \begin{flushleft}
+      {\bf{ESTUDIO}} (\underline{Id estudio}, Capacidad)
+    \end{flushleft}
+  
+    \begin{flushleft}
+      {\bf{UTILIZA}} (\underline{Nombre}, \underline{Id m\'ovil})
+    \end{flushleft}
+  
+    \begin{flushleft}
+      {\bf{MOVIL\_EXTERIOR}} (\underline{Id m\'ovil}, Caracter\'istica)
+    \end{flushleft}
+    
   \subsection{Restricciones adicionales}
     \begin{itemize}
      \item ESPACIO.Nombre puede ser nulo
@@ -210,7 +231,82 @@
      \item EMITIDO\_EN.Id estudio debe estar en MOVIL\_EXTERIOR.Id estudio
     \end{itemize}
 
-%APENDICES
+  \subsection{Diagrama de Modelos de tabla}
+    \begin{flushleft}
+      \begin{large} \bf{ESPACIO} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l | l |}
+	\hline D\'ia & Horario & Duraci\'on & Precio & Nombre \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{PROGRAMA} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l |}
+	\hline Nombre & Duracio & Clase & Tipo \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{TANDA} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l |}
+	\hline D\'ia & Horario & Hora tanda & Nro tanda \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{SE\_PUBLICITA} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l | l | l |}
+	\hline D\'ia & Horario & Hora tanda & Nro tanda & T\'itulo & Nro orden \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{ANUNCIO} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l |}
+	\hline T\'tulo & Duraci\'on & Producto ofrecido & Nro cuente \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{ANUNCIANTE} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l |}
+	\hline Nro cuenta & Raz\'on social & Tel\'efono & Domicilio \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{PROGRAMA\_GRABADO} \end{large}
+      \newline
+      \begin{tabular}{| l | l | l | l |}
+	\hline Nombre & Nro cuit \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{PRODUCTOR\_INDEPENDIENTE} \end{large}
+      \newline
+      \begin{tabular}{| l | l |}
+	\hline Nro cuit & Raz\'on social \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{EMITIDO\_EN} \end{large}
+      \newline
+      \begin{tabular}{| l | l |}
+	\hline Nombre & Id estudio \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{ESTUDIO} \end{large}
+      \newline
+      \begin{tabular}{| l | l |}
+	\hline Id estudio & Capacidad \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{UTILIZA} \end{large}
+      \newline
+      \begin{tabular}{| l | l |}
+	\hline Nombre & Id m\'ovil \\ \hline
+      \end{tabular}
+
+      \begin{large} \bf{MOVIL\_EXTERIOR} \end{large}
+      \newline
+      \begin{tabular}{| l | l |}
+	\hline Id m\'ovil & Caracter\'istica \\ \hline
+      \end{tabular}
+    \end{flushleft}
+
+     %APENDICES
 \appendix
 \newpage
 \section{Enunciado}
