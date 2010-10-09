@@ -207,7 +207,7 @@
 	\hline
 	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
 	\hline
-	\multicolumn{2}{|l|}{Un movil exterior es un veh�culo preparado para usar en la calle durante la emisi\'on de programas en vivo} \\
+	\multicolumn{2}{|l|}{Un movil exterior es un veh\'iculo preparado para usar en la calle durante la emisi\'on de programas en vivo} \\
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
@@ -267,30 +267,166 @@
     \subsubsection{Interrelaciones}
     
     \begin{flushleft}
-      \begin{large} \bf{Anunciante} \end{large}
+      \begin{large} \bf{Asignada a} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
 	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
 	\hline
-	\multicolumn{2}{|l|}{Un anunciante auspicia a lo sumo un producto, mediante un anuncio.} \\
+	\multicolumn{2}{|l|}{Las tandas son asignadas a los espacios en una programaci\'on. Un espacio puede tener asignadas muchas tandas.} \\
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- Nro cuenta & El n\'umero de cuenta del anunciante. \\
+	- Horario & ver atributo Horario de Espacio \\
 	\hline \hline
-	- Domicilio & El domicilio del anunciante. \\
+	- D\'ia & ver atributo D\'ia de Espacio\\
 	\hline \hline
-	- Raz\'on \newline social & La raz\'on social del anunciante. \\
+	- Nro tanda & ver atributo Nro tanda de Tanda\\
 	\hline \hline
-	- Tel\'efono & El tel\'efono del anunciate. \\
+	- Hora tanda & ver atributo Hora tanda de Tanda \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nro cuenta} \\
+	\multicolumn{2}{|l|}{- Horario + D\'ia } \\
 	\hline
       \end{tabular}
 
+
+    \begin{flushleft}
+      \begin{large} \bf{Transmitido en} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Los distintos programas son transmitidos en los diferentes espacios de la programaci\'on. Los programas pueden repetirse, por lo que pueden tener m\'as de un espacio asignado.} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- Horario & ver atributo Horario de Espacio \\
+	\hline \hline
+	- D\'ia & ver atributo D\'ia de Espacio\\
+	\hline \hline
+	- Nombre programa & ver atributo Nombre de Programa \\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- Horario + D\'ia } \\
+	\hline
+      \end{tabular}
+      
+      
+    \begin{flushleft}
+      \begin{large} \bf{Se publica} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Durante las tandas son transmitidos los distintos anuncios(publicidad). Durante una tanda se pasan varios anuncios. Adem\'as, los anuncios se repiten en varias tandas.} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- Nro orden & Orden en que los anuncios se pasan durante una tanda. \\
+	\hline \hline
+	- Nro tanda & ver atributo Nro tanda de Tanda. \\
+	\hline \hline
+	- Hora tanda & ver atributo Hora tanda de Tanda. \\
+	\hline \hline
+	- Titulo anuncio & ver atributo Titulo de Anuncio. \\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- Nro tanda + Hora tanda + Titulo anuncio} \\
+	\hline
+      \end{tabular}
+
+    \begin{flushleft}
+      \begin{large} \bf{Auspicia} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Los anuncios son auspiciados por los anunciantes.} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- Titulo anuncio & ver atributo Titulo de Anuncio. \\
+	\hline \hline
+	- Nro cuenta anunciante & ver atributo Numero cuenta de Anunciante. \\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- Titulo anuncio} \\
+	\hline
+      \end{tabular}
+
+
+    \begin{flushleft}
+      \begin{large} \bf{Utiliza} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Para realizar los programas en vivo, los mismos hacen uso de moviles para transmitirlos. Los mismos moviles son reutilizados por diferentes programas.} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- Id movil & ver atributo Id movil de Movil\_Exterior. \\
+	\hline \hline
+	- Nombre programa & ver atributo Nombre de Programa. \\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- Id movil + Nombre programa} \\
+	\hline
+      \end{tabular}
+
+
+    \begin{flushleft}
+      \begin{large} \bf{Emitido en} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Los programas en vivo se llevan a cabo en un estudio(puede que en m\'as de uno).} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- Nombre programa & ver atributo Nombre de Programa. \\
+	\hline \hline
+	- Id estudio & ver atributo Id estudio de Estudio. \\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- Nombre programa + Id estudio} \\
+	\hline
+      \end{tabular}
+      
+      
+    \begin{flushleft}
+      \begin{large} \bf{Provee} \end{large}
+    \end{flushleft}
+      \begin{tabular}{| p{2cm} | p{9cm} |}
+	\hline
+	\multicolumn{2}{|l|}{\bf{Descripci\'on:}} \\
+	\hline
+	\multicolumn{2}{|l|}{Los programas grabados que se emiten son provistos por productores ajenos al canal(productores independientes.} \\
+	\hline	
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
+	\hline
+	- Nombre programa & ver atributo Nombre de Programa. \\
+	\hline \hline
+	- Cuit productor & ver atributo Nro cuit de Productor\_Independiente. \\
+	\hline
+	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
+	\hline
+	\multicolumn{2}{|l|}{- Nombre programa} \\
+	\hline
+      \end{tabular}
 
 \newpage
 \section{Transformaci\'on del Modelo E-R a un Modelo Relacional}
