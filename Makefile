@@ -27,7 +27,7 @@ ModeloE-R/ModeloE-R.pdf : ModeloE-R/ModeloE-R.tex
 	cd ModeloE-R ; pdflatex $(texflags) ModeloE-R.tex ; cd ..
 
 ModeloE-R/ModeloE-R.png : ModeloE-R/ModeloE-R.pdf
-	convert ModeloE-R/ModeloE-R.pdf ModeloE-R/ModeloE-R.png
+	convert -trim -density 200 ModeloE-R/ModeloE-R.pdf ModeloE-R/ModeloE-R.png
 
 	
 clean :
