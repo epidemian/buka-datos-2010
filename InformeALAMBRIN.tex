@@ -79,13 +79,13 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- Hora tanda & La hora de comienzo de la tanda. \\
+	- Hora\_tanda & La hora de comienzo de la tanda. \\
 	\hline \hline
-	- Nro tanda & El n\'umero de tanda correspondiente a un programa. \\
+	- Nro\_tanda & El n\'umero de tanda correspondiente a un programa. \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro tanda} \\
+	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro\_tanda} \\
 	\hline
       \end{tabular}
 
@@ -114,6 +114,7 @@
 	\hline
       \end{tabular}
 
+    \newpage
     \begin{flushleft}
       \begin{large} \bf{Anunciante} \end{large}
     \end{flushleft}
@@ -125,20 +126,21 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- Nro cuenta & El n\'umero de cuenta del anunciante. \\
+	- Nro\_cuenta & El n\'umero de cuenta del anunciante. \\
 	\hline \hline
 	- Domicilio & El domicilio del anunciante. \\
 	\hline \hline
-	- Raz\'on \newline social & La raz\'on social del anunciante. \\
+	- Raz\'on\_ \newline social & La raz\'on social del anunciante. \\
 	\hline \hline
 	- Tel\'efono & El tel\'efono del anunciate. \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nro cuenta} \\
+	\multicolumn{2}{|l|}{- Nro\_cuenta} \\
 	\hline
       \end{tabular}
-  \begin{flushleft}
+
+    \begin{flushleft}
       \begin{large} \bf{Programa} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
@@ -162,8 +164,8 @@
 	\hline
       \end{tabular}
   
-  \begin{flushleft}
-      \begin{large} \bf{Programa en vivo} \end{large}
+    \begin{flushleft}
+      \begin{large} \bf{Programa\_en\_vivo} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -181,8 +183,8 @@
 	\hline
       \end{tabular} 
   
-  \begin{flushleft}
-      \begin{large} \bf{Programa grabado} \end{large}
+    \begin{flushleft}
+      \begin{large} \bf{Programa\_grabado} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -199,10 +201,10 @@
 	\multicolumn{2}{|l|}{- Hereda la clave de la entidad Programa} \\
 	\hline
       \end{tabular}
-      
-  	
-  	\begin{flushleft}
-      \begin{large} \bf{M\'ovil Exterior} \end{large}
+
+    \newpage
+    \begin{flushleft}
+      \begin{large} \bf{M\'ovil\_Exterior} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -213,17 +215,17 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- IdMovil & Identifica el movil. \\
+	- Id\_movil & Identifica el movil. \\
 	\hline \hline
 	- Carac- \newline ter\'istica & Descripci\'on de las caracter\'isticas del movil. \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Id m\'ovil} \\
+	\multicolumn{2}{|l|}{- Id\_m\'ovil} \\
 	\hline
       \end{tabular}
       
-     	\begin{flushleft}
+    \begin{flushleft}
       \begin{large} \bf{Estudio} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
@@ -234,18 +236,18 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- IdEstudio & Identifica el estudio. \\
+	- Id\_estudio & Identifica el estudio. \\
 	\hline \hline
 	- Capacidad & Cantidad de personas que entran en el estudio. \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Id estudio} \\
+	\multicolumn{2}{|l|}{- Id\_estudio} \\
 	\hline
       \end{tabular} 
       
-      \begin{flushleft}
-      \begin{large} \bf{Productor independiente} \end{large}
+    \begin{flushleft}
+      \begin{large} \bf{Productor\_independiente} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -256,13 +258,13 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- NroCuit & N\'umero de CUIT del productor. \\
+	- Nro\_cuit & N\'umero de CUIT del productor. \\
 	\hline \hline
-	- Raz\'on \newline Social & Raz\'on social del productor\\
+	- Raz\'on\_ \newline social & Raz\'on social del productor\\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nro cuit} \\
+	\multicolumn{2}{|l|}{- Nro\_cuit} \\
 	\hline
       \end{tabular} 
    
@@ -270,7 +272,7 @@
     \subsubsection{Interrelaciones}
     
     \begin{flushleft}
-      \begin{large} \bf{Asignada a} \end{large}
+      \begin{large} \bf{Asignada\_a} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -281,12 +283,12 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro tanda} \\
+	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro\_tanda} \\
 	\hline
-      \end{tabular}
-
+      \end{tabular} 
+   
     \begin{flushleft}
-      \begin{large} \bf{Transmitido en} \end{large}
+      \begin{large} \bf{Transmitido\_en} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -303,7 +305,7 @@
       \end{tabular}
        
     \begin{flushleft}
-      \begin{large} \bf{Se publica} \end{large}
+      \begin{large} \bf{Se\_publica} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -315,11 +317,11 @@
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
-	- Nro orden & Orden en que los anuncios se pasan durante una tanda. \\
+	- Nro\_orden & Orden en que los anuncios se pasan durante una tanda. \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro tanda + Titulo} \\
+	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro\_tanda + Titulo} \\
 	\hline
       \end{tabular}
 
@@ -334,10 +336,9 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Titulo + Nro cuenta} \\
+	\multicolumn{2}{|l|}{- Titulo + Nro\_cuenta} \\
 	\hline
       \end{tabular}
-
 
     \begin{flushleft}
       \begin{large} \bf{Utiliza} \end{large}
@@ -352,13 +353,12 @@
 	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Id m\'ovil + Nombre} \\
+	\multicolumn{2}{|l|}{- Id\_m\'ovil + Nombre} \\
 	\hline
       \end{tabular}
 
-
     \begin{flushleft}
-      \begin{large} \bf{Emitido en} \end{large}
+      \begin{large} \bf{Emitido\_en} \end{large}
     \end{flushleft}
       \begin{tabular}{| p{2cm} | p{9cm} |}
 	\hline
@@ -369,10 +369,9 @@
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Id estudio + Nombre} \\
+	\multicolumn{2}{|l|}{- Id\_estudio + Nombre} \\
 	\hline
-      \end{tabular}
-      
+      \end{tabular} 
       
     \begin{flushleft}
       \begin{large} \bf{Provee} \end{large}
@@ -386,100 +385,125 @@
 	\hline		
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nro cuit + Nombre} \\
+	\multicolumn{2}{|l|}{- Nro\_cuit + Nombre} \\
 	\hline
       \end{tabular}
 
 \newpage
 \section{Transformaci\'on del Modelo E-R a un Modelo Relacional}
+  \subsection{Claves candidatas y for\'aneas}
+  \begin{flushleft}
+  Las claves candidatas est\'an separadas con punto y coma(;). \\
+  En claves compuestas los atributos est\'an con punto y coma(;) y encerradas entre par\'entesis. \\
+  Las claves for\'aneas son subrayadas con l\'inea punteada. 
+  \end{flushleft}
+    \begin{itemize}
+      \item ESPACIO: (\underline{D\'ia}, \underline{Horario})
+      \item PROGRAMA: \underline{Nombre}
+      \item TANDA: (\dashuline{\underline{D\'ia}}, \dashuline{\underline{Horario}}, \underline{Nro\_tanda})
+      \item SE\_PUBLICA: (\dashuline{\underline{D\'ia}}, \dashuline{\underline{Horario}}, \dashuline{\underline{Nro\_tanda}}, \dashuline{\underline{T\'itulo}})
+      \item ANUNCIO: \underline{T\'itulo}
+      \item ANUNCIANTE: \underline{Nro\_cuenta}; Raz\'on\_social
+      \item PROGRAMA\_GRABADO: \underline{Nombre}
+      \item PRODUCTOR\_INDEPENDIENTE: \underline{Nro\_cuit}; Raz\'on\_social
+      \item PROGRAMA\_EN\_VIVO: \underline{Nombre}
+      \item EMITIDO\_EN: (\dashuline{\underline{Nombre}}, \dashuline{\underline{Id\_estudio}})
+      \item ESTUDIO: \underline{Id\_estudio}
+      \item UTILIZA: \dashuline{(\underline{Nombre}}, \dashuline{\underline{Id\_m\'ovil}})
+      \item MOVIL\_EXTERIOR: \underline{Id\_m\'ovil}
+    \end{itemize}
+
   \subsection{Diagrama resultante de la transformaci\'on}
+  \begin{flushleft}
+    Las claves primarias son subrayadas con l\'inea s\'olida.
+  \end{flushleft}
+
     \begin{flushleft}
-      {\bf{ESPACIO}} (\underline{D\'ia}, \underline{Horario}, Duraci\'on, Precio, \dashuline{Nombre})
+      {\bf{ESPACIO}} (\underline{D\'ia}, \underline{Horario}, Duraci\'on, Precio, Nombre)
     \end{flushleft} 
  
     \begin{flushleft}
-      {\bf{PROGRAMA}} (\underline{Nombre}, Duraci\'on, Clase, Tipo)
+      {\bf{PROGRAMA}} (\underline{Nombre}, Duraci\'on, Clase)
     \end{flushleft} 
 
     \begin{flushleft}
-      {\bf{TANDA}} (\underline{D\'ia}, \underline{Horario}, \underline{Nro tanda}, Hora tanda)
+      {\bf{TANDA}} (\underline{D\'ia}, \underline{Horario}, \underline{Nro\_tanda}, Hora\_tanda)
     \end{flushleft} 
 
     \begin{flushleft}
-      {\bf{SE\_PUBLICITA}} (\underline{D\'ia}, \underline{Horario}, \underline{Hora tanda}, \underline{Nro tanda}, \underline{T\'itulo}, \underline{Nro orden})    
+      {\bf{SE\_PUBLICA}} (\underline{D\'ia}, \underline{Horario}, \underline{Nro\_tanda}, \underline{T\'itulo}, Hora\_tanda, Nro\_orden)    
     \end{flushleft}
 
     \begin{flushleft}
-      {\bf{ANUNCIO}} (\underline{T\'itulo}, Duraci\'on, Producto ofrecido, \dashuline{Nro cuenta})
+      {\bf{ANUNCIO}} (\underline{T\'itulo}, Duraci\'on, Producto\_ofrecido, Nro\_cuenta)
     \end{flushleft}
 
     \begin{flushleft}
-      {\bf{ANUNCIANTE}} (\underline{Nro cuenta}, Raz\'on social, Tel\'efono, Domicilio)
+      {\bf{ANUNCIANTE}} (\underline{Nro\_cuenta}, Raz\'on\_social, Tel\'efono, Domicilio)
     \end{flushleft}
 
     \begin{flushleft}
-      {\bf{PROGRAMA\_GRABADO}} (\underline{Nombre}, \dashuline{Nro cuit})
+      {\bf{PROGRAMA\_GRABADO}} (\underline{Nombre}, Nro\_cuit)
     \end{flushleft}
    
     \begin{flushleft}
-      {\bf{PRODUCTOR\_INDEPENDIENTE}} (\underline{Nro cuit}, Raz\'on social)
+      {\bf{PRODUCTOR\_INDEPENDIENTE}} (\underline{Nro\_cuit}, Raz\'on\_social)
     \end{flushleft}
   
     \begin{flushleft}
-      {\bf{EMITIDO\_EN}} (\underline{Nombre}, \underline{Id estudio})
+      {\bf{PROGRAMA\_EN\_VIVO}} (\underline{Nombre})
+    \end{flushleft}
+
+    \begin{flushleft}
+      {\bf{EMITIDO\_EN}} (\underline{Nombre}, \underline{Id\_estudio})
     \end{flushleft}
   
     \begin{flushleft}
-      {\bf{ESTUDIO}} (\underline{Id estudio}, Capacidad)
+      {\bf{ESTUDIO}} (\underline{Id\_estudio}, Capacidad)
     \end{flushleft}
   
     \begin{flushleft}
-      {\bf{UTILIZA}} (\underline{Nombre}, \underline{Id m\'ovil})
+      {\bf{UTILIZA}} (\underline{Nombre}, \underline{Id\_m\'ovil})
     \end{flushleft}
   
     \begin{flushleft}
-      {\bf{MOVIL\_EXTERIOR}} (\underline{Id m\'ovil}, Caracter\'istica)
+      {\bf{MOVIL\_EXTERIOR}} (\underline{Id\_m\'ovil}, Caracter\'istica)
     \end{flushleft}
-    
-  \subsection{Restricciones adicionales}
+
+  \subsection{Atributos que pueden tomar valores nulos}
+    \begin{flushleft}
+      El Modelo Relacional tiene dos restricciones inherentes o impl\'icitas que refieren a las claves primarias y a las claves for\'aneas, llamadas reglas de integridad: 
+    \end{flushleft}
+
+    \begin{enumerate}
+    \item REGLA DE INTEGRIDAD DE ENTIDAD: Los valores que forman parte de un clave primaria deben estar bien definidos.
+    \item REGLA DE INTEGRIDAD REFERENCIAL: Los valores que toman una clave for\'anea deben ser o bien totalmente desconocidos o de lo contrario deben estar defenidos en la relaci\'on donde son clave primaria. 
+    \end{enumerate}
+
+    \begin{flushleft}
+      A partir de esto \'ultimo, se puede definir que atributos pueden ser nulos.
+    \end{flushleft}
+
     \begin{itemize}
-     \item ESPACIO.Nombre puede ser nulo
-     \item PROGRAMA.Nombre puede no estar en ESPACIO.Nombre
-     
-     \item ESPACIO.Dia y ESPACIO.Horario puede no estar en TANDA.D\'ia y TANDA.Horario, respectivamente
-     \item TANDA.D\'ia y TANDA.Horario deben estar en ESPACIO.D\'ia y ESPACIO.Horario, respectivamente
-     
-     \item TANDA.D\'ia, TANDA.Horario y TANDA.Hora tanda debe estar en \newline SE\_PUBLICITA.D\'ia, SE\_PUBLICITA.Horario 
-      y SE\_PUBLICITA.Hora, respectivamente.
-     \item SE\_PUBLICITA.D\'ia, SE\_PUBLICITA.Horario y SE\_PUBLICITA.Hora \newline tanda debe estar en TANDA.D\'ia, TANDA.Horario 
-      y TANDA.Hora, respectivamente.
-     \item ANUNCIO.T\'itulo debe estar en SE\_PUBLICITA.T\'itulo
-     \item SE\_PUBLICITA.T\'itulo debe estar en ANUNCIO.T\'itulo
-     
-     \item ANUNCIO.Nro cuenta puede ser nulo
-
-     \item PROGRAMA\_GRABADO.Nombre debe estar en PROGRAMA.Nombre
-     \item PROGRAMA.Nombre puede no estar PROGRAMA\_GRABADO.Nombre
-
-     \item PROGRAMA\_GRABADO.Nro cuit puede ser nulo
-     \item PRODUCTOR\_INDEPENDIENTE.Nro cuit puede no esta en PROGRAMA\_GRABADO.Nro cuit
-
-     \item PROGRAMA.Nombre puede no estar en UTILIZA.Nombre
-     \item MOVIL\_EXTERIOR.Id m\'ovil puede no estar en UTILIZA.Id m\'ovil
-     \item UTILIZA.Nombre debe estar en PROGRAMA.Nombre
-     \item UTILIZA.Id m\'ovil debe estar en MOVIL\_EXTERIOR.Id m\'ovil
-
-     \item PROGRAMA.Nombre puede no estar en EMITIDO\_EN.Nombre
-     \item ESTUDIO.Id estudio debe estar en UTILIZA.estudio
-     \item EMITIDO\_EN.Nombre debe estar en PROGRAMA.Nombre
-     \item EMITIDO\_EN.Id estudio debe estar en MOVIL\_EXTERIOR.Id estudio
+      \item ESPACIO: Duraci\'on, Precio y Nombre.
+      \item PROGRAMA: Duraci\'on y Clase.
+      \item TANDA: Hora\_tanda.
+      \item ANUNCIO: Hora\_tanda y Nro\_orden.
+      \item ANUNCIANTE: Raz\'on\_social, Tel\'efono y Domicilio.
+      \item PROGRAMA\_GRABADO: Nro\_cuit.
+      \item PRODUCTOR\_INDEPENDIENTE: Raz\'on\_social.
+      \item PROGRAMA\_EN\_VIVO: Ninguno.
+      \item EMITIDO\_EN: Ninguno.
+      \item ESTUDIO: Capacidad.
+      \item UTILIZA: Ninguno.
+      \item MOVIL\_EXTERIOR: Caracter\'istica.
     \end{itemize}
-
+    
   \subsection{Diagrama de Modelos de tabla}
     \begin{flushleft}
     \end{flushleft}
 
-     %APENDICES
+%APENDICES
 \appendix
 \newpage
 \section{Enunciado}
