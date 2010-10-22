@@ -219,7 +219,7 @@
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- IdMovil} \\
+	\multicolumn{2}{|l|}{- Id m\'ovil} \\
 	\hline
       \end{tabular}
       
@@ -240,7 +240,7 @@
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- IdEstudio} \\
+	\multicolumn{2}{|l|}{- Id estudio} \\
 	\hline
       \end{tabular} 
       
@@ -262,7 +262,7 @@
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- NroCuit} \\
+	\multicolumn{2}{|l|}{- Nro cuit} \\
 	\hline
       \end{tabular} 
    
@@ -279,22 +279,11 @@
 	\multicolumn{2}{|l|}{Las tandas son asignadas a los espacios en una programaci\'on. Un espacio} \\
 	\multicolumn{2}{|l|}{puede tener asignadas muchas tandas.} \\	
 	\hline	
-	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
-	\hline
-	- Horario & ver atributo Horario de Espacio \\
-	\hline \hline
-	- D\'ia & ver atributo D\'ia de Espacio\\
-	\hline \hline
-	- Nro tanda & ver atributo Nro tanda de Tanda\\
-	\hline \hline
-	- Hora tanda & ver atributo Hora tanda de Tanda \\
-	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Horario + D\'ia } \\
+	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro tanda} \\
 	\hline
       \end{tabular}
-
 
     \begin{flushleft}
       \begin{large} \bf{Transmitido en} \end{large}
@@ -306,22 +295,13 @@
 	\multicolumn{2}{|l|}{Los distintos programas son transmitidos en los diferentes espacios de la } \\
 	\multicolumn{2}{|l|}{programaci\'on. Los programas pueden repetirse, por lo que pueden } \\	
 	\multicolumn{2}{|l|}{tener m\'as de un espacio asignado.} \\	
-	\hline
-	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
-	\hline
-	- Horario & ver atributo Horario de Espacio \\
-	\hline \hline
-	- D\'ia & ver atributo D\'ia de Espacio\\
-	\hline \hline
-	- Nombre \newline programa & ver atributo Nombre de Programa \\
-	\hline
+	\hline	
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Horario + D\'ia } \\
+	\multicolumn{2}{|l|}{- Horario + D\'ia + Nombre} \\
 	\hline
       \end{tabular}
-      
-      
+       
     \begin{flushleft}
       \begin{large} \bf{Se publica} \end{large}
     \end{flushleft}
@@ -336,16 +316,10 @@
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
 	\hline
 	- Nro orden & Orden en que los anuncios se pasan durante una tanda. \\
-	\hline \hline
-	- Nro tanda & ver atributo Nro tanda de Tanda. \\
-	\hline \hline
-	- Hora tanda & ver atributo Hora tanda de Tanda. \\
-	\hline \hline
-	- Titulo \newline anuncio & ver atributo Titulo de Anuncio. \\
 	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nro tanda + Hora tanda + Titulo anuncio} \\
+	\multicolumn{2}{|l|}{- D\'ia + Horario + Nro tanda + Titulo} \\
 	\hline
       \end{tabular}
 
@@ -358,15 +332,9 @@
 	\hline
 	\multicolumn{2}{|l|}{Los anuncios son auspiciados por los anunciantes.} \\
 	\hline	
-	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
-	\hline
-	- Titulo \newline anuncio & ver atributo Titulo de Anuncio. \\
-	\hline \hline
-	- Nro cuenta anunciante & ver atributo Numero cuenta de Anunciante. \\
-	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Titulo anuncio} \\
+	\multicolumn{2}{|l|}{- Titulo + Nro cuenta} \\
 	\hline
       \end{tabular}
 
@@ -382,15 +350,9 @@
 	\multicolumn{2}{|l|}{transmitirlos. Los mismos moviles son reutilizados por diferentes} \\	
 	\multicolumn{2}{|l|}{programas.} \\
 	\hline	
-	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
-	\hline
-	- Id movil & ver atributo Id movil de Movil\_Exterior. \\
-	\hline \hline
-	- Nombre \newline programa & ver atributo Nombre de Programa. \\
-	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Id movil + Nombre programa} \\
+	\multicolumn{2}{|l|}{- Id m\'ovil + Nombre} \\
 	\hline
       \end{tabular}
 
@@ -405,17 +367,9 @@
 	\multicolumn{2}{|l|}{Los programas en vivo se llevan a cabo en un estudio(puede que en m\'as de} \\
 	\multicolumn{2}{|l|}{uno).} \\	
 	\hline
-	\multicolumn{2}{|l|}{} \\
-	\hline	
-	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
-	\hline
-	- Nombre \newline programa & ver atributo Nombre de Programa. \\
-	\hline \hline
-	- Id estudio & ver atributo Id estudio de Estudio. \\
-	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nombre programa + Id estudio} \\
+	\multicolumn{2}{|l|}{- Id estudio + Nombre} \\
 	\hline
       \end{tabular}
       
@@ -430,15 +384,9 @@
 	\multicolumn{2}{|l|}{Los programas grabados que se emiten son provistos por productores} \\
 	\multicolumn{2}{|l|}{ajenos al canal(productores independientes.} \\	
 	\hline		
-	\multicolumn{2}{|l|}{\bf{Especificaci\'on de atributos:}} \\
-	\hline
-	- Nombre \newline programa & ver atributo Nombre de Programa. \\
-	\hline \hline
-	- Cuit \newline productor & ver atributo Nro cuit de Productor\_Independiente. \\
-	\hline
 	\multicolumn{2}{|l|}{\bf{Especificaci\'on de identificador \'unico:}} \\
 	\hline
-	\multicolumn{2}{|l|}{- Nombre programa} \\
+	\multicolumn{2}{|l|}{- Nro cuit + Nombre} \\
 	\hline
       \end{tabular}
 
