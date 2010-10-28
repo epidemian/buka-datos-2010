@@ -8,6 +8,7 @@
 \usepackage{pdfpages}
 \usepackage{fancyhdr}
 \usepackage{ulem}
+\usepackage{float}
 \pagestyle{fancy}
 
 \def\dashuline{\bgroup 
@@ -493,10 +494,25 @@
       \item MOVIL\_EXTERIOR: Caracter\'istica.
     \end{itemize}
     
-  \subsection{Diagrama de Modelos de tabla}
-    \begin{flushleft}
-    \end{flushleft}
-
+  \subsection{Diagrama de Modelos de tabla}  
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.35]{der.png}
+				\caption{Diagrama de modelos de tabla}
+				\label{fig:flujos}
+			\end{center}
+		\end{figure}
+		
+		\begin{flushleft}
+    	Algunas alternativas al diagrama presentado que se podr\'ian plantear son:
+    \end{flushleft}  
+    
+    \begin{itemize}
+    	\item Para las relaciones cuya cardinalidad \textbf{no} es N:N (ejemplo 1:N), se podría utilizar una tabla (como en el caso del N:N) esto tiene sus ventajas y desventajas respecto al modelo planteado. La ventaja es que resolver el problema as\'i posibilita llegado el caso cambiar la cardinalidad de la relación a N:N sin mayores complicaciones. La desventaja es que esta configuraci\'on requiere una tabla m\'as y todo el esfuerzo que implica mantener esa tabla.
+    	\item Para el caso particular del atributo Clase en la relaci\'on PROGRAMA, se podr\'ia usar una tabla que tenga como atributos la clase y un c\'odigo \'unico que la identifique y que almacene las diferentes clases de programas. Finalmente a la tabla PROGRAMA se la relaciona con la tabla CLASE por medio del atributo \textit{codigoclase} que se agregar\'ia en la tabla PROGRAMA (ser\'ia una clave for\'anea).
+    	Se elegi\'o esta soluci\'on para mantener la simplicidad del modelo de entidad-relaci\'on.
+    \end{itemize}
+    
 %APENDICES
 \appendix
 \newpage
