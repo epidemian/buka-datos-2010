@@ -63,11 +63,11 @@
   \node[ident relationship] (asignada a) [right of=espacio, node distance=10em] {Asignada a} edge [->] node[auto,swap] {[1..1]} (espacio);
     
   \node[weak entity] (tanda) [right of=asignada a, node distance=10em] {TANDA} edge [total] node[auto,swap] {[0..*]} (asignada a);
-  \node[attribute] (hora tanda) [above=of tanda] {\discriminator{Hora tanda}} edge (tanda);
+  \node[attribute] (hora tanda) [above=of tanda] {Hora tanda} edge (tanda);
   \node[attribute] (nro tanda) [right=of tanda] {\discriminator{Nro tanda}} edge (tanda);
     
   \node[relationship] (se publica) [below of=tanda, node distance=8em] {Se publica} edge node[auto,swap] {[1..*]} (tanda);
-  \node[attribute] (nro orden) [left of=se publica, node distance=9em] {\key{Nro orden}} edge (se publica);
+  \node[attribute] (nro orden) [left of=se publica, node distance=9em] {Nro orden} edge (se publica);
   
   \node[entity] (anuncio) [below left of=se publica, node distance=8em] {ANUNCIO} edge node[auto,swap] {[1..*]} (se publica);
   \node[attribute] (producto ofrecido) [below right=of anuncio] {Producto ofrecido} edge (anuncio);
