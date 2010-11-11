@@ -298,7 +298,7 @@
 	\hline
 	\bf{Especificaci\'on de identificador \'unico:} \\
 	\hline
-	- Horario + D\'ia + Nombre \\
+	- Horario + D\'ia\\
 	\hline
       \end{tabular}
        
@@ -334,7 +334,7 @@
 	\hline	
 	\bf{Especificaci\'on de identificador \'unico:} \\
 	\hline
-	- Titulo + Nro\_cuenta \\
+	- Titulo \\
 	\hline
       \end{tabular}
 
@@ -379,7 +379,7 @@
 	\hline		
 	\bf{Especificaci\'on de identificador \'unico:} \\
 	\hline
-	- Nro\_cuit + Nombre \\
+	- Nombre \\
 	\hline
       \end{tabular}
 
@@ -388,7 +388,7 @@
   \subsection{Claves candidatas y for\'aneas}
   \begin{flushleft}
   Las claves candidatas est\'an separadas con punto y coma(;). \\
-  En claves compuestas los atributos est\'an con punto y coma(;) y encerradas entre par\'entesis. \\
+  En claves compuestas los atributos est\'an con coma(,) y encerradas entre par\'entesis. \\
   Las claves for\'aneas son subrayadas con l\'inea punteada. 
   \end{flushleft}
     \begin{itemize}
@@ -396,7 +396,7 @@
       \item PROGRAMA: \underline{Nombre}
       \item TANDA: (\dashuline{\underline{D\'ia}}, \dashuline{\underline{Horario}}, \underline{Nro\_tanda})
       \item SE\_PUBLICA: (\dashuline{\underline{D\'ia}}, \dashuline{\underline{Horario}}, \dashuline{\underline{Nro\_tanda}}, \dashuline{\underline{T\'itulo}})
-      \item ANUNCIO: \underline{T\'itulo}
+      \item ANUNCIO: \underline{T\'itulo}, \dashuline{Nro\_cuenta}
       \item ANUNCIANTE: \underline{Nro\_cuenta}; Raz\'on\_social
       \item PROGRAMA\_GRABADO: \underline{Nombre}
       \item PRODUCTOR\_INDEPENDIENTE: \underline{Nro\_cuit}; Raz\'on\_social
@@ -425,7 +425,7 @@
     \end{flushleft} 
 
     \begin{flushleft}
-      {\bf{SE\_PUBLICA}} (\underline{D\'ia}, \underline{Horario}, \underline{Nro\_tanda}, \underline{T\'itulo}, Hora\_tanda, Nro\_orden)    
+      {\bf{SE\_PUBLICA}} (\underline{D\'ia}, \underline{Horario}, \underline{Nro\_tanda}, \underline{T\'itulo}, Nro\_orden)    
     \end{flushleft}
 
     \begin{flushleft}
@@ -508,7 +508,7 @@
     \end{flushleft}  
     
     \begin{itemize}
-    	\item Para las relaciones cuya cardinalidad \textbf{no} es N:N (ejemplo 1:N), se podría utilizar una tabla (como en el caso del N:N) esto tiene sus ventajas y desventajas respecto al modelo planteado. La ventaja es que resolver el problema as\'i posibilita llegado el caso cambiar la cardinalidad de la relación a N:N sin mayores complicaciones. La desventaja es que esta configuraci\'on requiere una tabla m\'as y todo el esfuerzo que implica mantener esa tabla.
+    	\item Para las relaciones cuya cardinalidad \textbf{no} es N:N (ejemplo 1:N), se podrï¿½a utilizar una tabla (como en el caso del N:N) esto tiene sus ventajas y desventajas respecto al modelo planteado. La ventaja es que resolver el problema as\'i posibilita llegado el caso cambiar la cardinalidad de la relaciï¿½n a N:N sin mayores complicaciones. La desventaja es que esta configuraci\'on requiere una tabla m\'as y todo el esfuerzo que implica mantener esa tabla.
     	\item Para el caso particular del atributo Clase en la relaci\'on PROGRAMA, se podr\'ia usar una tabla que tenga como atributos la clase y un c\'odigo \'unico que la identifique y que almacene las diferentes clases de programas. Finalmente a la tabla PROGRAMA se la relaciona con la tabla CLASE por medio del atributo \textit{codigoclase} que se agregar\'ia en la tabla PROGRAMA (ser\'ia una clave for\'anea).
     	Se elegi\'o esta soluci\'on para mantener la simplicidad del modelo de entidad-relaci\'on.
     \end{itemize}
