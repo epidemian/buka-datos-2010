@@ -19,7 +19,7 @@ endif
 
 all : InformeALAMBRIN.pdf ModeloE-R/ModeloE-R.pdf ModeloE-R/ModeloE-R.png
 
-InformeALAMBRIN.pdf : InformeALAMBRIN.tex ModeloE-R/ModeloE-R.png
+InformeALAMBRIN.pdf : InformeALAMBRIN.tex ModeloE-R/ModeloE-R.png queriesSQL.tex
 	pdflatex $(texflags) InformeALAMBRIN.tex
 	pdflatex $(texflags) InformeALAMBRIN.tex
 

@@ -1,0 +1,180 @@
+\section{Consultas SQL}
+
+\subsubsection*{1. Todos los programas que no se emiten los fines de semana.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+select * from programa
+  minus
+select p.* from programa p, espacio e
+where p.cod_prog = e.cod_prog and e.dia in ('DOM', 'SAB')
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+COD_PROG	NOMBRE	CLASE	DURACION
+C22	Canal ``ETA''	Humor	1800
+\end{verbatim} 
+
+\subsubsection*{2. El o los d\'ias de la semana en que el anunciante ``Juan Uncio'', anuncie su mayor cantidad diaria de anuncios.}
+
+\paragraph{Consulta}
+\begin{verbatim}
+select p.dia 
+from publicidad p, anuncio a, anunciante e
+where p.titulo = a.titulo and a.cuenta = e.cuenta and 
+      e.razon_social = 'Juan Uncio'
+group by p.dia
+having count(p.dia) = (select max(count(p.dia))
+                       from publicidad p, anuncio a, anunciante e
+                       where p.titulo = a.titulo and a.cuenta = e.cuenta and
+                             e.razon_social = 'Juan Uncio'
+                       group by p.dia)
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+DIA
+MAR
+\end{verbatim} 
+
+Las cl\'ausulas \verb|from|, \verb|where| y \verb|group by| son id\'enticas en ambos selects. En el select principal se obtienen los d\'ias en los que el anunciante ``Juan Uncio'' publica alg\'un anuncio, y en la cl\'ausula \verb|having| de \'este se compara la cantidad de anuncios por d\'ia contra su m\'aximo de anuncios por d\'ia. \\
+
+\subsubsection*{3. La raz\'on social de los anunciantes que anuncian en la mayor cantidad de programas distintos.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+select razon_social, count(distinct e.cod_prog)
+from anunciante a, anuncio an, publicidad p, espacio e
+where a.cuenta = an.cuenta and an.titulo = p.titulo and p.dia = e.dia and p.hora = e.hora
+group by a.razon_social
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+RAZON_SOCIAL	COUNT(DISTINCTE.COD_PROG)
+Ricardo Perez	4
+Juan Lastra	2
+Edgar Agar	2
+Juan Uncio	4
+\end{verbatim} 
+
+\paragraph{Consulta}
+\begin{verbatim} 
+select a.razon_social
+from anunciante a, anuncio an, publicidad p, espacio e
+where a.cuenta = an.cuenta and an.titulo = p.titulo and 
+      p.dia = e.dia and p.hora = e.hora
+group by a.razon_social
+having count(distinct e.cod_prog) = (select max(count(distinct e.cod_prog))
+                                     from anunciante a, anuncio an, publicidad p, espacio e
+                                     where a.cuenta = an.cuenta and an.titulo = p.titulo and 
+                                           p.dia = e.dia and p.hora = e.hora
+                                     group by a.razon_social)
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+RAZON_SOCIAL
+Ricardo Perez
+Juan Uncio
+\end{verbatim} 
+
+
+\subsubsection*{4. El nombre de los programas grabados que se emitan en promedio m\'as veces por d\'ia los fines de semana que los d\'ias laborales (lunes a viernes).}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+select distinct p.nombre
+from programa p, produccion prod
+where p.cod_prog = prod.cod_prog and
+      (select count(*) from espacio e 
+       where e.cod_prog = p.cod_prog and e.dia in ('SAB', 'DOM')) / 2 
+         >
+       (select count(*) from espacio e 
+       where e.cod_prog = p.cod_prog and e.dia not in ('SAB', 'DOM')) / 5
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+NOMBRE
+La Aventura del Punto
+\end{verbatim} 
+
+\paragraph{Comentarios}
+Suposici\'on: Los programas grabados son los que tienen una producci\'on asociada. \\
+
+En el primer subquery se cuenta la cantidad de veces que se transmite el programa los fines de semana, y el segundo la cantidad de veces que se transmite los d\'ias de semana. El promedio se saca haciendo una divisi\'on por la cantidad de d\'ias en cada caso, y luego s\'olo se comparan los promedios.
+
+
+\subsubsection*{5. El d\'ia, hora y n\'umero de tanda de las tandas que tengan una cantidad de anuncios mayor que el promedio de anuncios por tanda del mismo d\'ia.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+
+\end{verbatim} 
+
+\subsubsection*{6. Para cada d\'ia, mostrar el d\'ia, la hora y el nombre del programa que se emite en el espacio con la mayor cantidad de anuncios distintos de cada d\'ia.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+
+\end{verbatim} 
+
+\subsubsection*{7. El nombre de los programas en vivo que se emiten en todos los d\'ias h\'abiles (lunes a viernes).}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+
+\end{verbatim} 
+
+\subsubsection*{8. Los d\'ias en que se ocupan todos los estudios.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+
+\end{verbatim} 
+
+\subsubsection*{9. La raz\'on social de los anunciantes que tienen al menos un anuncio de sus productos en las emisiones de todos los programas del productor ``ROMUALDO''.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+
+\end{verbatim} 
+
+\subsubsection*{10. El nombre de los programas que se emiten en todos los d\'ias en que al menos una vez sean utilizados todos los m\'oviles por cualquiera de los programas emitidos en ese d\'ia.}
+
+\paragraph{Consulta}
+\begin{verbatim} 
+
+\end{verbatim}
+
+\paragraph{Resultados}
+\begin{verbatim} 
+
+\end{verbatim} 
