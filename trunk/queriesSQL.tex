@@ -1,180 +1,250 @@
 \section{Consultas SQL}
 
-\subsubsection*{1. Todos los programas que no se emiten los fines de semana.}
+% Configuración de 
+\lstset{basicstyle=\fontfamily{pcr}\small, language=SQL}
 
-\paragraph{Consulta}
-\begin{verbatim} 
+\subsection*{1. \normalsize{Todos los programas que no se emiten los fines de semana.}}
+
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 select * from programa
   minus
 select p.* from programa p, espacio e
-where p.cod_prog = e.cod_prog and e.dia in ('DOM', 'SAB')
-\end{verbatim}
+where p.cod_prog = e.cod_prog and e.dia in ('SAB', 'DOM')
+\end{lstlisting}
 
-\paragraph{Resultados}
-\begin{verbatim} 
-COD_PROG	NOMBRE	CLASE	DURACION
-C22	Canal ``ETA''	Humor	1800
-\end{verbatim} 
+O bien:
 
-\subsubsection*{2. El o los d\'ias de la semana en que el anunciante ``Juan Uncio'', anuncie su mayor cantidad diaria de anuncios.}
+\begin{lstlisting} 
+select * from programa p
+where cod_prog not in (select e.cod_prog from espacio e 
+                       where e.cod_prog = p.cod_prog and 
+                             dia in ('SAB', 'DOM'))
+\end{lstlisting}
 
-\paragraph{Consulta}
-\begin{verbatim}
-select p.dia 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|l|l|}
+  \hline
+    \bf{COD\_PROG} & \bf{NOMBRE} & \bf{CLASE} & \bf{DURACION} \\ 
+  \hline
+    C22 & Canal ``ETA'' & Humor & 1800 \\ 
+  \hline
+\end{tabular} 
+
+\subsection*{2. \normalsize{El o los d\'ias de la semana en que el anunciante ``Juan Uncio'', anuncie su mayor cantidad diaria de anuncios.}}
+
+\subsubsection*{Consulta}
+\begin{lstlisting}
+select dia 
 from publicidad p, anuncio a, anunciante e
-where p.titulo = a.titulo and a.cuenta = e.cuenta and 
-      e.razon_social = 'Juan Uncio'
-group by p.dia
-having count(p.dia) = (select max(count(p.dia))
-                       from publicidad p, anuncio a, anunciante e
-                       where p.titulo = a.titulo and a.cuenta = e.cuenta and
-                             e.razon_social = 'Juan Uncio'
-                       group by p.dia)
-\end{verbatim}
+where p.titulo = a.titulo and 
+      a.cuenta = e.cuenta and 
+      razon_social = 'Juan Uncio'
+group by dia
+having count(1) = (select max(count(1))
+                   from publicidad p, anuncio a, anunciante e
+                   where p.titulo = a.titulo and 
+                         a.cuenta = e.cuenta and
+                         razon_social = 'Juan Uncio'
+                   group by dia)
+\end{lstlisting}
 
-\paragraph{Resultados}
-\begin{verbatim} 
-DIA
-MAR
-\end{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|}
+  \hline
+    \bf{DIA} \\ 
+  \hline
+    MAR \\ 
+  \hline
+\end{tabular} 
+
+\subsubsection*{Comentarios}
 
 Las cl\'ausulas \verb|from|, \verb|where| y \verb|group by| son id\'enticas en ambos selects. En el select principal se obtienen los d\'ias en los que el anunciante ``Juan Uncio'' publica alg\'un anuncio, y en la cl\'ausula \verb|having| de \'este se compara la cantidad de anuncios por d\'ia contra su m\'aximo de anuncios por d\'ia. \\
 
-\subsubsection*{3. La raz\'on social de los anunciantes que anuncian en la mayor cantidad de programas distintos.}
+La repetici\'on de c\'odigo podr\'ia evitarse usando una vista SQL:
 
-\paragraph{Consulta}
-\begin{verbatim} 
-select razon_social, count(distinct e.cod_prog)
-from anunciante a, anuncio an, publicidad p, espacio e
-where a.cuenta = an.cuenta and an.titulo = p.titulo and p.dia = e.dia and p.hora = e.hora
-group by a.razon_social
-\end{verbatim}
+\begin{lstlisting}
+create view anuncios_por_dia_juan_uncio(dia, cantidad) as
+select dia, count(1)
+from publicidad p, anuncio a, anunciante e
+where p.titulo = a.titulo and a.cuenta = e.cuenta and 
+      razon_social = 'Juan Uncio'
+group by dia;
 
-\paragraph{Resultados}
-\begin{verbatim} 
-RAZON_SOCIAL	COUNT(DISTINCTE.COD_PROG)
-Ricardo Perez	4
-Juan Lastra	2
-Edgar Agar	2
-Juan Uncio	4
-\end{verbatim} 
+select dia from anuncios_por_dia_juan_uncio
+where cantidad = (select max(cantidad) from anuncios_por_dia_juan_uncio);
+\end{lstlisting}
 
-\paragraph{Consulta}
-\begin{verbatim} 
+
+\subsection*{3. \normalsize{La raz\'on social de los anunciantes que anuncian en la mayor cantidad de programas distintos.}}
+
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 select a.razon_social
 from anunciante a, anuncio an, publicidad p, espacio e
 where a.cuenta = an.cuenta and an.titulo = p.titulo and 
       p.dia = e.dia and p.hora = e.hora
 group by a.razon_social
-having count(distinct e.cod_prog) = (select max(count(distinct e.cod_prog))
-                                     from anunciante a, anuncio an, publicidad p, espacio e
-                                     where a.cuenta = an.cuenta and an.titulo = p.titulo and 
-                                           p.dia = e.dia and p.hora = e.hora
-                                     group by a.razon_social)
-\end{verbatim}
+having count(distinct e.cod_prog) = 
+       (select max(count(distinct e.cod_prog))
+        from anunciante a, anuncio an, publicidad p, espacio e
+        where a.cuenta = an.cuenta and an.titulo = p.titulo and 
+              p.dia = e.dia and p.hora = e.hora
+        group by a.razon_social)
+\end{lstlisting}
 
-\paragraph{Resultados}
-\begin{verbatim} 
-RAZON_SOCIAL
-Ricardo Perez
-Juan Uncio
-\end{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|}
+  \hline
+    \bf{RAZON\_SOCIAL} \\ 
+  \hline
+    Juan Uncio \\ 
+  \hline
+\end{tabular} 
 
+\subsubsection*{Comentarios}
+En \'este ejemplo tambi\'en se podr\'ia evitar repetici\'on de c\'odigo usando una vista SQL:
 
-\subsubsection*{4. El nombre de los programas grabados que se emitan en promedio m\'as veces por d\'ia los fines de semana que los d\'ias laborales (lunes a viernes).}
+\begin{lstlisting} 
+create view programas_por_anunciante(razon_social, programas) as
+select razon_social, count(distinct e.cod_prog)
+from anunciante a, anuncio an, publicidad p, espacio e
+where a.cuenta = an.cuenta and an.titulo = p.titulo and 
+      p.dia = e.dia and p.hora = e.hora
+group by a.razon_social;
 
-\paragraph{Consulta}
-\begin{verbatim} 
-select distinct p.nombre
-from programa p, produccion prod
-where p.cod_prog = prod.cod_prog and
+select razon_social from programas_por_anunciante
+where programas = (select max(programas) from programas_por_anunciante);
+
+\end{lstlisting}
+
+\subsection*{4. \normalsize{El nombre de los programas grabados que se emitan en promedio m\'as veces por d\'ia los fines de semana que los d\'ias laborales (lunes a viernes).}}
+
+\subsubsection*{Consulta}
+\begin{lstlisting} 
+select p.nombre from programa p
+where p.cod_prog in (select cod_prog from produccion) and
       (select count(*) from espacio e 
        where e.cod_prog = p.cod_prog and e.dia in ('SAB', 'DOM')) / 2 
          >
-       (select count(*) from espacio e 
+      (select count(*) from espacio e 
        where e.cod_prog = p.cod_prog and e.dia not in ('SAB', 'DOM')) / 5
-\end{verbatim}
+\end{lstlisting}
 
-\paragraph{Resultados}
-\begin{verbatim} 
-NOMBRE
-La Aventura del Punto
-\end{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|}
+  \hline
+    \bf{NOMBRE} \\ 
+  \hline
+    La Aventura del Punto \\ 
+  \hline
+\end{tabular} 
 
-\paragraph{Comentarios}
+\subsubsection*{Comentarios}
 Suposici\'on: Los programas grabados son los que tienen una producci\'on asociada. \\
 
 En el primer subquery se cuenta la cantidad de veces que se transmite el programa los fines de semana, y el segundo la cantidad de veces que se transmite los d\'ias de semana. El promedio se saca haciendo una divisi\'on por la cantidad de d\'ias en cada caso, y luego s\'olo se comparan los promedios.
 
 
-\subsubsection*{5. El d\'ia, hora y n\'umero de tanda de las tandas que tengan una cantidad de anuncios mayor que el promedio de anuncios por tanda del mismo d\'ia.}
+\subsection*{5. \normalsize{El d\'ia, hora y n\'umero de tanda de las tandas que tengan una cantidad de anuncios mayor que el promedio de anuncios por tanda del mismo d\'ia.}}
 
-\paragraph{Consulta}
-\begin{verbatim} 
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 
-\end{verbatim}
+\end{lstlisting}
 
-\paragraph{Resultados}
-\begin{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|}
+  \hline
+    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+  \hline
+    c11 & c21 \\ 
+    c21 & c22 \\
+  \hline
+\end{tabular} 
 
-\end{verbatim} 
+\subsection*{6. \normalsize{Para cada d\'ia, mostrar el d\'ia, la hora y el nombre del programa que se emite en el espacio con la mayor cantidad de anuncios distintos de cada d\'ia.}}
 
-\subsubsection*{6. Para cada d\'ia, mostrar el d\'ia, la hora y el nombre del programa que se emite en el espacio con la mayor cantidad de anuncios distintos de cada d\'ia.}
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 
-\paragraph{Consulta}
-\begin{verbatim} 
+\end{lstlisting}
 
-\end{verbatim}
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|}
+  \hline
+    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+  \hline
+    c11 & c21 \\ 
+    c21 & c22 \\
+  \hline
+\end{tabular} 
 
-\paragraph{Resultados}
-\begin{verbatim} 
+\subsection*{7. \normalsize{El nombre de los programas en vivo que se emiten en todos los d\'ias h\'abiles (lunes a viernes).}}
 
-\end{verbatim} 
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 
-\subsubsection*{7. El nombre de los programas en vivo que se emiten en todos los d\'ias h\'abiles (lunes a viernes).}
+\end{lstlisting}
 
-\paragraph{Consulta}
-\begin{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|}
+  \hline
+    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+  \hline
+    c11 & c21 \\ 
+    c21 & c22 \\
+  \hline
+\end{tabular} 
 
-\end{verbatim}
+\subsection*{8. \normalsize{Los d\'ias en que se ocupan todos los estudios.}}
 
-\paragraph{Resultados}
-\begin{verbatim} 
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 
-\end{verbatim} 
+\end{lstlisting}
 
-\subsubsection*{8. Los d\'ias en que se ocupan todos los estudios.}
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|}
+  \hline
+    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+  \hline
+    c11 & c21 \\ 
+    c21 & c22 \\
+  \hline
+\end{tabular} 
 
-\paragraph{Consulta}
-\begin{verbatim} 
+\subsection*{9. \normalsize{La raz\'on social de los anunciantes que tienen al menos un anuncio de sus productos en las emisiones de todos los programas del productor ``ROMUALDO''.}}
 
-\end{verbatim}
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 
-\paragraph{Resultados}
-\begin{verbatim} 
+\end{lstlisting}
 
-\end{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|}
+  \hline
+    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+  \hline
+    c11 & c21 \\ 
+    c21 & c22 \\
+  \hline
+\end{tabular} 
 
-\subsubsection*{9. La raz\'on social de los anunciantes que tienen al menos un anuncio de sus productos en las emisiones de todos los programas del productor ``ROMUALDO''.}
+\subsection*{10. \normalsize{El nombre de los programas que se emiten en todos los d\'ias en que al menos una vez sean utilizados todos los m\'oviles por cualquiera de los programas emitidos en ese d\'ia.}}
 
-\paragraph{Consulta}
-\begin{verbatim} 
+\subsubsection*{Consulta}
+\begin{lstlisting} 
 
-\end{verbatim}
+\end{lstlisting}
 
-\paragraph{Resultados}
-\begin{verbatim} 
-
-\end{verbatim} 
-
-\subsubsection*{10. El nombre de los programas que se emiten en todos los d\'ias en que al menos una vez sean utilizados todos los m\'oviles por cualquiera de los programas emitidos en ese d\'ia.}
-
-\paragraph{Consulta}
-\begin{verbatim} 
-
-\end{verbatim}
-
-\paragraph{Resultados}
-\begin{verbatim} 
-
-\end{verbatim} 
+\subsubsection*{Resultados}
+\begin{tabular}{|l|l|}
+  \hline
+    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+  \hline
+    c11 & c21 \\ 
+    c21 & c22 \\
+  \hline
+\end{tabular} 
