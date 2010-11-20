@@ -1,6 +1,6 @@
 \section{Consultas SQL}
 
-% Configuración de 
+% Configuración de paquete listings para SQL y tipografia courier.
 \lstset{basicstyle=\fontfamily{pcr}\small, language=SQL}
 
 \subsection*{1. \normalsize{Todos los programas que no se emiten los fines de semana.}}
@@ -8,18 +8,8 @@
 \subsubsection*{Consulta}
 \begin{lstlisting} 
 select * from programa
-  minus
-select p.* from programa p, espacio e
-where p.cod_prog = e.cod_prog and e.dia in ('SAB', 'DOM')
-\end{lstlisting}
-
-O bien:
-
-\begin{lstlisting} 
-select * from programa p
-where cod_prog not in (select e.cod_prog from espacio e 
-                       where e.cod_prog = p.cod_prog and 
-                             dia in ('SAB', 'DOM'))
+where cod_prog not in (select cod_prog from espacio 
+                       where dia in ('SAB', 'DOM'))
 \end{lstlisting}
 
 \subsubsection*{Resultados}
@@ -41,12 +31,12 @@ where p.titulo = a.titulo and
       a.cuenta = e.cuenta and 
       razon_social = 'Juan Uncio'
 group by dia
-having count(1) = (select max(count(1))
-                   from publicidad p, anuncio a, anunciante e
-                   where p.titulo = a.titulo and 
-                         a.cuenta = e.cuenta and
-                         razon_social = 'Juan Uncio'
-                   group by dia)
+having count(1) >= all (select count(1)
+                        from publicidad p, anuncio a, anunciante e
+                        where p.titulo = a.titulo and 
+                              a.cuenta = e.cuenta and
+                              razon_social = 'Juan Uncio'
+                        group by dia)
 \end{lstlisting}
 
 \subsubsection*{Resultados}
@@ -60,9 +50,9 @@ having count(1) = (select max(count(1))
 
 \subsubsection*{Comentarios}
 
-Las cl\'ausulas \verb|from|, \verb|where| y \verb|group by| son id\'enticas en ambos selects. En el select principal se obtienen los d\'ias en los que el anunciante ``Juan Uncio'' publica alg\'un anuncio, y en la cl\'ausula \verb|having| de \'este se compara la cantidad de anuncios por d\'ia contra su m\'aximo de anuncios por d\'ia. \\
+Las cl\'ausulas \lstinline|from|, \lstinline|where| y \lstinline|group by| son id\'enticas en ambos selects. En el select principal se obtienen los d\'ias en los que el anunciante ``Juan Uncio'' publica alg\'un anuncio, y en la cl\'ausula \lstinline|having| de \'este se compara la cantidad de anuncios por d\'ia contra su m\'aximo de anuncios por d\'ia. \\
 
-La repetici\'on de c\'odigo podr\'ia evitarse usando una vista SQL:
+La repetici\'on de c\'odigo (y la consiguiente dificultad para entenderlo/mantenerlo) podr\'ia evitarse usando una vista SQL:
 
 \begin{lstlisting}
 create view anuncios_por_dia_juan_uncio(dia, cantidad) as
@@ -76,6 +66,9 @@ select dia from anuncios_por_dia_juan_uncio
 where cantidad = (select max(cantidad) from anuncios_por_dia_juan_uncio);
 \end{lstlisting}
 
+Pero esto, a su vez, pordr\'ia ser problem\'atico, ya que se estar\'ia creando una vista adicional en la base de datos que es de inter\'es s\'olo a una consulta particular. Adoptar esta metodolog\'ia para resolver todas las consultas complejas no ser\'ia una soluci\'on pr\'actica escalable, ya que pronto la base de datos se transformar\'ia en un conjunto de much\'isimas vistas poco reutilizables que, si bien no son costosas en t\'erminos de espacio f\'isico como las tablas, agregar\'ian complejidad innecesaria. \\
+
+Lo ideal para no repetir el c\'odigo ser\'ia poder guardar una tabla como una variable temporal, que se descarte luego de salir del \'ambito en que se use. Desgraciadamente esta funcionalidad, m\'as procedural/imperativa, est\'a fuera del estandard SQL, que es m\'as bien un lenguaje declarativo. Algunas extensiones al lenguaje, como PSQL, proveen esta funcionalidad en forma de tablas temporales o variables locales a funciones.
 
 \subsection*{3. \normalsize{La raz\'on social de los anunciantes que anuncian en la mayor cantidad de programas distintos.}}
 
@@ -86,8 +79,8 @@ from anunciante a, anuncio an, publicidad p, espacio e
 where a.cuenta = an.cuenta and an.titulo = p.titulo and 
       p.dia = e.dia and p.hora = e.hora
 group by a.razon_social
-having count(distinct e.cod_prog) = 
-       (select max(count(distinct e.cod_prog))
+having count(distinct e.cod_prog) >= all 
+       (select count(distinct e.cod_prog)
         from anunciante a, anuncio an, publicidad p, espacio e
         where a.cuenta = an.cuenta and an.titulo = p.titulo and 
               p.dia = e.dia and p.hora = e.hora
@@ -99,12 +92,13 @@ having count(distinct e.cod_prog) =
   \hline
     \bf{RAZON\_SOCIAL} \\ 
   \hline
+    Ricardo Perez \\
     Juan Uncio \\ 
   \hline
 \end{tabular} 
 
 \subsubsection*{Comentarios}
-En \'este ejemplo tambi\'en se podr\'ia evitar repetici\'on de c\'odigo usando una vista SQL:
+Al igual que en la consulta 2, esta podr\'ia En \'este ejemplo tambi\'en se podr\'ia evitar repetici\'on de c\'odigo usando una vista SQL:
 
 \begin{lstlisting} 
 create view programas_por_anunciante(razon_social, programas) as
@@ -123,13 +117,13 @@ where programas = (select max(programas) from programas_por_anunciante);
 
 \subsubsection*{Consulta}
 \begin{lstlisting} 
-select p.nombre from programa p
-where p.cod_prog in (select cod_prog from produccion) and
-      (select count(*) from espacio e 
-       where e.cod_prog = p.cod_prog and e.dia in ('SAB', 'DOM')) / 2 
+select nombre from programa p
+where cod_prog in (select cod_prog from produccion) and
+      (select count(*) from espacio
+       where cod_prog = p.cod_prog and dia in ('SAB', 'DOM')) / 2 
          >
-      (select count(*) from espacio e 
-       where e.cod_prog = p.cod_prog and e.dia not in ('SAB', 'DOM')) / 5
+      (select count(*) from espacio
+       where cod_prog = p.cod_prog and dia not in ('SAB', 'DOM')) / 5
 \end{lstlisting}
 
 \subsubsection*{Resultados}
@@ -141,9 +135,11 @@ where p.cod_prog in (select cod_prog from produccion) and
   \hline
 \end{tabular} 
 
-\subsubsection*{Comentarios}
-Suposici\'on: Los programas grabados son los que tienen una producci\'on asociada. \\
 
+\subsubsection*{Suposici\'on}
+Los programas grabados son los que tienen una producci\'on asociada. \\
+
+\subsubsection*{Comentarios}
 En el primer subquery se cuenta la cantidad de veces que se transmite el programa los fines de semana, y el segundo la cantidad de veces que se transmite los d\'ias de semana. El promedio se saca haciendo una divisi\'on por la cantidad de d\'ias en cada caso, y luego s\'olo se comparan los promedios.
 
 
@@ -151,67 +147,153 @@ En el primer subquery se cuenta la cantidad de veces que se transmite el program
 
 \subsubsection*{Consulta}
 \begin{lstlisting} 
+select dia, hora, tanda
+from publicidad p
+group by dia, hora, tanda
+having count(distinct titulo) > (select avg(count(distinct titulo))
+                                 from publicidad
+                                 where dia = p.dia
+                                 group by dia, hora, tanda)
+\end{lstlisting}
 
+O bien, calculando el promedio \textit{a mano}:
+\begin{lstlisting}
+select dia, hora, tanda
+from publicidad p
+group by dia, hora, tanda
+having count(distinct titulo) > (select count(1) from publicidad 
+                                 where dia = p.dia) /
+                                (select count(1) from tanda
+                                 where dia = p.dia)
+\end{lstlisting}
+
+O bien, seleccionando directamente de la tabla \lstinline|tanda|:
+\begin{lstlisting}
+select * from tanda t
+where (select count (distinct titulo) from publicidad 
+       where dia = t.dia and hora = t.hora and tanda = t.tanda) 
+         > 
+      (select count(1) from publicidad where dia = t.dia) /
+      (select count(1) from tanda where dia = t.dia)
 \end{lstlisting}
 
 \subsubsection*{Resultados}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|l|l|}
   \hline
-    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+    \bf{DIA} & \bf{HORA} & \bf{TANDA} \\ 
   \hline
-    c11 & c21 \\ 
-    c21 & c22 \\
+    DOM & 13:00 & 1 \\
+    DOM & 13:00 & 2 \\
+    SAB & 11:00 & 1 \\
+    SAB & 13:00 & 2 \\
   \hline
 \end{tabular} 
+
+\subsubsection*{Suposici\'on}
+El enunciado dice ``...las tandas que tengan una cantidad de anuncios...'', con lo cual se supone que lo que se desea tener en cuenta es la cantidad de anuncios distintos en esa tanda, y no la cantidad de publicidades. e.g: si una tanda tiene 3 publicidades, pero las 3 son del mismo anuncio (un lavaje de cerebro importante), se contaría un sólo anuncio en esa tanda. \\
+
+Si lo que se quería era contar la cantidad de publicidades en una tanda, sin importar que se tratara de anuncios repetidos, basta con reemplazar los ``\lstinline|distinct titulo|'' por \lstinline|*| o \lstinline|1| (en cualquiera de las consultas).
+
+\subsubsection*{Comentarios}
+Esta consulta es un ejemplo de que ocurre a menudo con SQL: existen muchas formas de obtener la misma información. La elección de la consulta podrá depender de lo que el programador considere más expresivo, o podrían llevarse a cabo pruebas de performance para averiguar cuál es la más conveniente. \\
+
+En este caso, se considera que la forma más expresiva de calcular el promedio de anuncios por tanda de un día dado es la usada en la primer consulta. Pero es posible que la expresión ``\lstinline|avg(count(distinct titulo))|'' no sea soportada por todos los motores de bases de datos, y se tenga que recurrir a calcular el promedio \textit{a mano} como en la segunda o tercer consulta.
+
 
 \subsection*{6. \normalsize{Para cada d\'ia, mostrar el d\'ia, la hora y el nombre del programa que se emite en el espacio con la mayor cantidad de anuncios distintos de cada d\'ia.}}
 
 \subsubsection*{Consulta}
 \begin{lstlisting} 
-
+select e.dia, e.hora, nombre
+from espacio e, programa pr, publicidad pu
+where e.cod_prog = pr.cod_prog and 
+      e.dia = pu.dia and e.hora = pu.hora
+group by e.dia, e.hora, nombre
+having count(distinct titulo) >= all (select count(distinct titulo) 
+                                      from publicidad 
+                                      where dia = e.dia 
+                                      group by dia, hora)
+order by e.dia, e.hora
 \end{lstlisting}
 
 \subsubsection*{Resultados}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|l|l|}
   \hline
-    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+    \bf{DIA} & \bf{HORA} & \bf{NOMBRE} \\ 
   \hline
-    c11 & c21 \\ 
-    c21 & c22 \\
+    DOM & 13:00 & Su Ojo en la Lupa \\ 
+    JUE & 11:00 & Viva la Patria \\ 
+    JUE & 13:00 & Canal ``ETA'' \\ 
+    JUE & 15:00 & Viva la Patria \\ 
+    LUN & 11:00 & La Aventura del Punto \\ 
+    LUN & 13:00 & Canal ``ETA'' \\ 
+    LUN & 15:00 & Viva la Patria \\ 
+    MAR & 11:00 & La Aventura del Punto \\ 
+    MAR & 13:00 & Canal ``ETA'' \\ 
+    MAR & 15:00 & Viva la Patria \\ 
+    MIE & 11:00 & La Aventura del Punto \\ 
+    MIE & 13:00 & Canal ``ETA'' \\ 
+    MIE & 15:00 & Viva la Patria \\ 
+    SAB & 13:00 & Su Ojo en la Lupa \\ 
+    VIE & 11:00 & Viva la Patria \\ 
+    VIE & 13:00 & Su Ojo en la Lupa \\ 
+    VIE & 15:00 & Viva la Patria \\ 
   \hline
 \end{tabular} 
+
+\subsubsection*{Comentarios}
+Como puede existir más de un espacio con la mayor cantidad de anuncios distintos por día, aparecen múltiples resultados para algunos de los días de la semana.
 
 \subsection*{7. \normalsize{El nombre de los programas en vivo que se emiten en todos los d\'ias h\'abiles (lunes a viernes).}}
 
 \subsubsection*{Consulta}
 \begin{lstlisting} 
-
+select nombre 
+from programa p
+where cod_prog not in (select cod_prog from produccion) and
+      not exists (select dia from espacio 
+                  where dia  in ('LUN', 'MAR', 'MIE', 'JUE', 'VIE') 
+                    minus
+                  select dia from espacio 
+                  where cod_prog = p.cod_prog)
 \end{lstlisting}
 
 \subsubsection*{Resultados}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|}
   \hline
-    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+    \bf{NOMBRE} \\ 
   \hline
-    c11 & c21 \\ 
-    c21 & c22 \\
+    Su Ojo en la Lupa \\ 
   \hline
 \end{tabular} 
+
+\subsubsection*{Suposici\'on}
+Los programas en vivo son los no grabados, es decir, los que no tienen una producción asociada.
+
+\subsubsection*{Comentarios}
+Esta consulta es tipo una división del álgebra relacional. Podría también implementarse con dos \lstinline|not exists| anidados, pero de esta forma resulta más legible. La consulta puede \textit{leerse} como ``Los programas en vivo tal que no exista día hábil en que el programa no se transmita''.
 
 \subsection*{8. \normalsize{Los d\'ias en que se ocupan todos los estudios.}}
 
 \subsubsection*{Consulta}
 \begin{lstlisting} 
-
+select distinct dia from espacio e
+where not exists (select estudio from estudio
+                    minus
+                  select estudio 
+                  from espacio es, ocupacion o
+                  where es.cod_prog = o.cod_prog and es.dia = e.dia)
 \end{lstlisting}
 
 \subsubsection*{Resultados}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|}
   \hline
-    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+    \bf{DIA} \\ 
   \hline
-    c11 & c21 \\ 
-    c21 & c22 \\
+    JUE \\
+    LUN \\
+    MAR \\
+    MIE \\
   \hline
 \end{tabular} 
 
