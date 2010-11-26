@@ -258,6 +258,19 @@ where cod_prog not in (select cod_prog from produccion) and
                   where cod_prog = p.cod_prog)
 \end{lstlisting}
 
+O bien:
+
+\begin{lstlisting} 
+select nombre 
+from programa p
+where cod_prog not in (select cod_prog from produccion) and
+      not exists (select dia from espacio e
+                  where dia in ('LUN', 'MAR', 'MIE', 'JUE', 'VIE') 
+                        and not exists (select * from espacio 
+                                        where cod_prog = p.cod_prog 
+                                              and dia  = e.dia))
+\end{lstlisting} 
+
 \subsubsection*{Resultados}
 \begin{tabular}{|l|}
   \hline
@@ -267,11 +280,22 @@ where cod_prog not in (select cod_prog from produccion) and
   \hline
 \end{tabular} 
 
-\subsubsection*{Suposici\'on}
-Los programas en vivo son los no grabados, es decir, los que no tienen una producción asociada.
+\subsubsection*{Suposiciones}
+Los programas en vivo son los no grabados, es decir, los que no tienen una producción asociada. \\
+
+Existe al menos un espacio en cada día de la semana. \\
 
 \subsubsection*{Comentarios}
-Esta consulta es tipo una división del álgebra relacional. Podría también implementarse con dos \lstinline|not exists| anidados, pero de esta forma resulta más legible. La consulta puede \textit{leerse} como ``Los programas en vivo tal que no exista día hábil en que el programa no se transmita''.
+Esta consulta es tipo una división del álgebra relacional. La consulta con los dos \lstinline|not exists| anidados es correcta, pero la primera resulta más entendible, ya que hay menos anidamiento de selects. La consulta puede \textit{leerse}, en ambos casos, como ``Los programas en vivo tal que no exista día hábil en que el programa no se transmita''. \\
+
+La segunda suposición es necesaria puesto que no existe una tabla de donde se puedan sacar los nombres de los día de la semana. Ni tampoco es posible crear una tabla temporal que los contenga. Ni tampoco, auqnue en teoría es posible\cite{values_expression}, el gestor de base de datos que utiliza el sistema de pruebas permite utilizar una expresión \lstinline|values| para crear una tabla constante:
+
+\begin{lstlisting} 
+-- Los dias habiles en que no se transmite el programa p.
+select * from (values 'LUN', 'MAR', 'MIE', 'JUE', 'VIE') as habiles
+  minus
+select dia from espacio where cod_prog = p.cod_prog
+\end{lstlisting}
 
 \subsection*{8. \normalsize{Los d\'ias en que se ocupan todos los estudios.}}
 
