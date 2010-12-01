@@ -387,12 +387,12 @@ where not exists (
     select distinct dia 
     from espacio e
     where not exists (select movil from movil_exterior
-                      minus
-                    select m.movil
-                    from movil_exterior m, utilizacion u, espacio e2
-                    where m.movil = u.movil and 
-                          u.cod_prog = e2.cod_prog and 
-                          e2.dia = e.dia
+                        minus
+                      select m.movil
+                      from movil_exterior m, utilizacion u, espacio e2
+                      where m.movil = u.movil and 
+                            u.cod_prog = e2.cod_prog and 
+                            e2.dia = e.dia
     )
       minus
     -- Dias en que se transmite 'p'.
