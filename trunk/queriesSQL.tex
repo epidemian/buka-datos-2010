@@ -354,7 +354,7 @@ where not exists (
     from productor pdt, produccion pdc
     where razon_social = 'Romualdo' and
           pdt.cuit = pdc.cuit and 
-          not exists (-- Los espacios donde se publicita algún producto de 'a'
+          not exists (-- Los espacios donde se publicita algun producto de 'a'
                       select 1 
                       from espacio e, publicidad pub, anuncio an
                       where e.cod_prog = pdc.cod_prog and
@@ -366,7 +366,7 @@ where not exists (
 \subsubsection*{Resultado (2)}
 \begin{tabular}{|l|}
   \hline
-    \bf{RAZON_SOCIAL} \\ 
+    \bf{RAZON\_SOCIAL} \\ 
   \hline
     Ricardo Perez \\ 
     Juan Uncio \\
