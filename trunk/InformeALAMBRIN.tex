@@ -9,6 +9,23 @@
 \usepackage{fancyhdr}
 \usepackage{ulem}
 \usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[spanish]{babel}
+\usepackage{bookman}
+\usepackage[left=2cm,top=3cm,right=2cm,bottom=1cm,head=1.5cm,includefoot]{geometry}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage[table]{xcolor}
+\usepackage{ulem}
 \pagestyle{fancy}
 
 \def\dashuline{\bgroup 
@@ -534,11 +551,173 @@
 %APENDICES
 \appendix
 \newpage
-\section{Enunciado}
-  \includepdf[pages=1-2, scale=0.8, pagecommand={\thispagestyle{plain}}]{EnunciadoBD.pdf}
+%\section{Enunciado}
+%  \includepdf[pages=1-2, scale=0.8, pagecommand={\thispagestyle{plain}}]{EnunciadoBD.pdf}
+  \section{Modelos Entidad Interrelacion y Relacional}
+  \label{sec-1}
+    El canal de televisión por cable ALAMBRIN, mantiene información de la
+    programación, publicidad y producción de sus programas. Se cuenta con
+    la siguiente información:
+
+  \subsection{Programación}
+  \label{sec-1.1}
+    La programación del canal se emite diariamente de 7 a 24 hs. En ese
+    horario se emiten programas en vivo o programas grabados. Cada
+    programa tiene un nombre que lo identifica y una duración
+    determinada. El canal cuenta con distintas clases de programas:
+    Dibujos animados, Juegos y Entretenimientos, Humorísticos, Noticieros
+    infantiles y Películas infantiles.
+
+    El horario de transmisión del canal se divide en espacios que tienen
+    una duración determinada, identificados por el día y la hora en que se
+    emite, y caracterizado por un precio ( por segundo en el aire ).
+
+    El departamento de Programación del canal asigna a cada espacio un
+    programa, y determina además si el espacio contiene tandas
+    publicitarias, identificadas por el día, la hora y el número de
+    tanda. Dichas tandas se corresponden a un espacio específico.
   
+  \subsection{Publicidad}
+  \label{sec-1.2}
+    El canal cuenta con una serie de anunciantes. A cada uno se le asigna
+    un número de cuenta, y para cada uno se cuenta con su razón social,
+    domicilio y teléfono.
+
+    En cada tanda se publicitan varios anuncios, identificados por un
+    título. Cada anuncio se caracteriza por el producto ofrecido, la
+    duración del mismo, y el anunciante que lo auspicia.
+
+    Es importante para los anunciantes el orden en que saldrá al aire el
+    anuncio dentro de la tanda, ya que de esa forma obtendrán mayor
+    atención de los televidentes. Como ALAMBRIN es el canal líder para los
+    niños, muchos anuncios salen al aire en diferentes tandas
+    publicitarias.
+
   
+  \subsection{Producción}
+  \label{sec-1.3}
+    Existen productores independientes que pueden proveer programas
+    grabados al canal. Para aquellos productores ligados al canal se
+    conoce su número de CUIT y razón social.
+
+    Debido al nuevo cambio de imagen propuesto por el departamento de
+    Marketing, ALAMBRIN ha invertido en móviles en exteriores de
+    diferentes características técnicas. Dichos móviles se utilizan en
+    diferentes programas en vivo. Pero no todos los programas en vivo
+    utilizan móviles en exteriores. Algunos programas en vivo suelen tener
+    asignados más de un móvil, sobre todo en época de vacaciones.
+
+    Otro de los cambios de imagen impulsados por el canal consta en hacer
+    participar al público infantil de los programas en vivo. La cantidad
+    de público que ingresa al canal depende de la capacidad de los
+    estudios ocupados para producir el programa. Cada estudio se
+    identifica por un número único.
+
+  \subsection{Hipótesis}
+  \label{sec-1.4}
 
 
+  \begin{itemize}
+  \item En una misma tanda no puede repetirse un anuncio.
+  \item La suma de las duraciones de los anuncios de una tanda,
+      determina la duración de esa tanda.
+  \item La suma de las duraciones de las tandas que componen un espacio,
+      junto con la duración del programa emitido en dicho espacio,
+      coincide exactamente con la duración del espacio
+  \end{itemize}
+  \subsection{Objetivo del Trabajo Práctico}
+  \label{sec-1.5}
+
+
+  \begin{enumerate}
+  \item Realizar un modelo E-R en base a la descripción del enunciado y a
+	los efectos de satisfacer los requerimientos de información
+	solicitados.
+  \item Transformar el modelo E-R en un modelo relacional (modelo de
+	tablas) utilizando los conocimientos de transformación de entidades a
+	tablas.
+  \end{enumerate}
+  \subsection{Forma De Presentación Del Trabajo Practico:}
+  \label{sec-1.6}
+
+
+  \begin{enumerate}
+  \item Presentar el diagrama de entidad - interrelación con indicaciones
+	de restricciones de cardinalidad.
+  \item Indicar dependencias de identidad y de existencia en el modelo.
+  \item Especificar supuestos que justifiquen el modelo (Hipótesis).
+  \item Presentar el diccionario de datos del diagrama con la siguiente
+	información:
+  \end{enumerate}
+  \subsection{Para cada tipo de entidad se debe especificar:}
+  \label{sec-1.7}
+
+
+  \begin{enumerate}
+  \item Definición.
+  \item Especificación de atributos.
+  \item Especificación de identificador único.
+  \end{enumerate}
+  \subsection{Para cada tipo de interrelación se debe especificar:}
+  \label{sec-1.8}
+
+
+  \begin{enumerate}
+  \item Definición.
+  \item Especificación de atributos.
+  \item Especificación de identificador único.
+  \end{enumerate}
+  \subsection{Modelo relacional}
+  \label{sec-1.9}
+
+    Presentar el modelo Relacional ( ``de tablas'' ) indicando para cada
+    esquema de relación:
+    
+  \begin{itemize}
+  \item Atributos
+  \item Claves candidatas
+  \item Clave primaria
+  \item Claves foráneas
+  \item Atributos que pueden tomar valores nulos
+  \item Realice el diagrama del Modelo de Tablas
+  \end{itemize}
+      Nota: en los casos en que existan diferentes alternativas para
+      efectuar la transformación de MER al modelo de tablas, elegir una
+      única alternativa y enumerar las ventajas y desventajas de la
+      alternativa elegida.
+
+
+  \section{Consultas SQL}
+  \label{sec-2}
+    Para realizar las consultas se deben utilizar , sin excepción , las
+    tablas de la base de datos del link precitado\footnote{Para acceder a la base de datos:  \href{http://apex.oracle.com/pls/otn/f?p=26093:1}{http://apex.oracle.com/pls/otn/f?p=26093:1} con usuario y password: test. }.  Utilizando
+    únicamente las sentencias y cláusulas especificadas en la cartilla
+    de sintaxis SQL incluída en el apunte, obtener:
+
+  \begin{enumerate}
+  \item Todos los programas que no se emiten los fines de semana.
+  \item El o los días de la semana en que el anunciante \textbf{“Juan Uncio”},
+      anuncie su mayor cantidad diaria de anuncios.
+  \item La razón social de los anunciantes que anuncian en la mayor
+      cantidad de programas distintos.
+  \item El nombre de los programas grabados que se emitan en promedio más
+      veces por día los fines de semana que los días laborales (lunes a
+      viernes).
+  \item El día, hora y número de tanda de las tandas que tengan una
+      cantidad de anuncios mayor que el promedio de anuncios por tanda
+      del mismo día.
+  \item Para cada día, mostrar el día, la hora y el nombre del programa
+      que se emite en el espacio con la mayor cantidad de anuncios
+      distintos de cada día.
+  \item El nombre de los programas en vivo que se emiten en todos los
+      días hábiles (lunes a viernes).
+  \item Los días en que se ocupan todos los estudios.
+  \item La razón social de los anunciantes que tienen al menos un anuncio
+      de sus productos en las emisiones de todos los programas del
+      productor \textbf{“ROMUALDO”}.
+  \item El nombre de los programas que se emiten en todos los días en
+	que al menos una vez sean utilizados todos los móviles por
+	cualquiera de los programas emitidos en ese día.
+  \end{enumerate}
 
 \end{document}
