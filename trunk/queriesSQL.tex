@@ -380,15 +380,37 @@ En esta otra consulta se buscan los anunciantes que tienen al menos un anuncio e
 
 \subsubsection*{Consulta}
 \begin{lstlisting} 
+select nombre 
+from programa p
+where not exists (
+    -- Dias en que se utilizan todos los moviles.
+    select distinct dia 
+    from espacio e
+    where not exists (select movil from movil_exterior
+                      minus
+                    select m.movil
+                    from movil_exterior m, utilizacion u, espacio e2
+                    where m.movil = u.movil and 
+                          u.cod_prog = e2.cod_prog and 
+                          e2.dia = e.dia
+    )
+      minus
+    -- Dias en que se transmite 'p'.
+    select dia from espacio where cod_prod = p.cod_prod
+)
 
 \end{lstlisting}
 
 \subsubsection*{Resultado}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|}
   \hline
-    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+    \bf{NOMBRE1} \\ 
   \hline
-    c11 & c21 \\ 
-    c21 & c22 \\
+    Canal ``ETA'' \\ 
+    Su Ojo en la Lupa \\
+    Viva la Patria \\ 
   \hline
 \end{tabular} 
+
+\subsubsection*{Comentarios}
+La consulta podría verse como dos divisiones. Pero en vez de hacer cuatro \lstinline|not exists| concatenados, se optó por una forma más sencilla de expresalo: usando diferencias. Básicamente, se puede pensar la consulta como ``Los programas tales que no existe un dia \textit{ocupado} en donde éste no se transmita'', siendo un día ocupado uno en que todos los móviles se utilizan.
