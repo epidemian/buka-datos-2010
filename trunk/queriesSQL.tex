@@ -12,7 +12,7 @@ where cod_prog not in (select cod_prog from espacio
                        where dia in ('SAB', 'DOM'))
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|l|l|l|}
   \hline
     \bf{COD\_PROG} & \bf{NOMBRE} & \bf{CLASE} & \bf{DURACION} \\ 
@@ -39,7 +39,7 @@ having count(1) >= all (select count(1)
                         group by dia)
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|}
   \hline
     \bf{DIA} \\ 
@@ -87,7 +87,7 @@ having count(distinct e.cod_prog) >= all
         group by a.razon_social)
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|}
   \hline
     \bf{RAZON\_SOCIAL} \\ 
@@ -110,7 +110,6 @@ group by a.razon_social;
 
 select razon_social from programas_por_anunciante
 where programas = (select max(programas) from programas_por_anunciante);
-
 \end{lstlisting}
 
 \subsection*{4. \normalsize{El nombre de los programas grabados que se emitan en promedio m\'as veces por d\'ia los fines de semana que los d\'ias laborales (lunes a viernes).}}
@@ -126,7 +125,7 @@ where cod_prog in (select cod_prog from produccion) and
        where cod_prog = p.cod_prog and dia not in ('SAB', 'DOM')) / 5
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|}
   \hline
     \bf{NOMBRE} \\ 
@@ -177,7 +176,7 @@ where (select count (distinct titulo) from publicidad
       (select count(1) from tanda where dia = t.dia)
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|l|l|}
   \hline
     \bf{DIA} & \bf{HORA} & \bf{TANDA} \\ 
@@ -216,7 +215,7 @@ having count(distinct titulo) >= all (select count(distinct titulo)
 order by e.dia, e.hora
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|l|l|}
   \hline
     \bf{DIA} & \bf{HORA} & \bf{NOMBRE} \\ 
@@ -247,31 +246,19 @@ Como puede existir más de un espacio con la mayor cantidad de anuncios distinto
 \subsection*{7. \normalsize{El nombre de los programas en vivo que se emiten en todos los d\'ias h\'abiles (lunes a viernes).}}
 
 \subsubsection*{Consulta}
+
 \begin{lstlisting} 
 select nombre 
-from programa p
+from programa
 where cod_prog not in (select cod_prog from produccion) and
-      not exists (select dia from espacio 
-                  where dia  in ('LUN', 'MAR', 'MIE', 'JUE', 'VIE') 
-                    minus
-                  select dia from espacio 
-                  where cod_prog = p.cod_prog)
+      cod_prog in (select cod_prog from espacio where dia = 'LUN') and
+      cod_prog in (select cod_prog from espacio where dia = 'MAR') and
+      cod_prog in (select cod_prog from espacio where dia = 'MIE') and
+      cod_prog in (select cod_prog from espacio where dia = 'JUE') and
+      cod_prog in (select cod_prog from espacio where dia = 'VIE')
 \end{lstlisting}
 
-O bien:
-
-\begin{lstlisting} 
-select nombre 
-from programa p
-where cod_prog not in (select cod_prog from produccion) and
-      not exists (select dia from espacio e
-                  where dia in ('LUN', 'MAR', 'MIE', 'JUE', 'VIE') 
-                        and not exists (select * from espacio 
-                                        where cod_prog = p.cod_prog 
-                                              and dia  = e.dia))
-\end{lstlisting} 
-
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|}
   \hline
     \bf{NOMBRE} \\ 
@@ -280,22 +267,25 @@ where cod_prog not in (select cod_prog from produccion) and
   \hline
 \end{tabular} 
 
-\subsubsection*{Suposiciones}
+\subsubsection*{Suposición}
 Los programas en vivo son los no grabados, es decir, los que no tienen una producción asociada. \\
 
-Existe al menos un espacio en cada día de la semana. \\
-
 \subsubsection*{Comentarios}
-Esta consulta es tipo una división del álgebra relacional. La consulta con los dos \lstinline|not exists| anidados es correcta, pero la primera resulta más entendible, ya que hay menos anidamiento de selects. La consulta puede \textit{leerse}, en ambos casos, como ``Los programas en vivo tal que no exista día hábil en que el programa no se transmita''. \\
+Esta consulta está expresada como una especie de interesección: \textit{``Los programas en vivo que se transmiten los Lunes'' $\cap$ \ldots $\cap$``Los programas en vivo que se transmiten los Viernes''}. \\
 
-La segunda suposición es necesaria puesto que no existe una tabla de donde se puedan sacar los nombres de los día de la semana. Ni tampoco es posible crear una tabla temporal que los contenga. Ni tampoco, auqnue en teoría es posible\cite{values_expression}, el gestor de base de datos que utiliza el sistema de pruebas permite utilizar una expresión \lstinline|values| para crear una tabla constante:
-
+Pero también podría verse como una división del álgebra relacional:
 \begin{lstlisting} 
--- Los dias habiles en que no se transmite el programa p.
-select * from (values 'LUN', 'MAR', 'MIE', 'JUE', 'VIE') as habiles
-  minus
-select dia from espacio where cod_prog = p.cod_prog
+select nombre 
+from programa p
+where cod_prog not in (select cod_prog from produccion) and
+      not exists (select * 
+                  from (values 'LUN', 'MAR', 'MIE', 'JUE', 'VIE') as habiles
+                    minus
+                  select dia from espacio 
+                  where cod_prog = p.cod_prog)
 \end{lstlisting}
+ 
+La cual puede \textit{leerse} como \textit{``Los programas en vivo tal que no exista día hábil en que el programa no se transmita''}. lo cual resulta bastante más natural y sencillo de expresar que la consulta con interesección anterior usada. Por desgracia, aunque ésta consulta es en teoría válida\cite{values_expression}, el gestor de base de datos que utiliza el sistema de pruebas no permite utilizar una expresión \lstinline|values| para crear una tabla constante. Y no existe forma de obtener los valores de los días de la semana ya que estos no estás cargados en ninguna tabla, y tomar la suposición de que están al menos una vez en la talba \texttt{espacio} sería algo muy poco \textit{robusto}. \\
 
 \subsection*{8. \normalsize{Los d\'ias en que se ocupan todos los estudios.}}
 
@@ -309,7 +299,7 @@ where not exists (select estudio from estudio
                   where es.cod_prog = o.cod_prog and es.dia = e.dia)
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|}
   \hline
     \bf{DIA} \\ 
@@ -323,20 +313,68 @@ where not exists (select estudio from estudio
 
 \subsection*{9. \normalsize{La raz\'on social de los anunciantes que tienen al menos un anuncio de sus productos en las emisiones de todos los programas del productor ``ROMUALDO''.}}
 
-\subsubsection*{Consulta}
-\begin{lstlisting} 
+La especificación de la consulta resulta ambigua. Existen, a saber, dos interprestaciones posibles, para las cuales se exponen sus respectivas soluciones.
 
+\subsubsection*{Consulta (1)}
+
+\begin{lstlisting} 
+select razon_social
+from anunciante a
+where not exists (
+    -- Los espacios de los programas de 'Romualdo'.
+    select 1
+    from productor pdt, produccion pdc, espacio e
+    where razon_social = 'Romualdo' and
+          pdt.cuit = pdc.cuit and 
+          pdc.cod_prog = e.cod_prog and
+          not exists (-- Las publicidades de 'a' en ese espacio.
+                      select 1 
+                      from publicidad pub, anuncio an
+                      where dia = e.dia and hora = e.hora and
+                            pub.titulo = an.titulo and
+                            an.cuenta = a.cuenta ))
 \end{lstlisting}
 
-\subsubsection*{Resultados}
-\begin{tabular}{|l|l|}
+\subsubsection*{Resultado (1)}
+\texttt{no data found}
+
+\subsubsection*{Comentarios (1)}
+En esta consulta se buscan a los anunciantes que tienen al menos un anuncio en todas las emisiones de todos los programas de ``Romualdo''. La consulta está expresada como \textit{``Los anunciantes tales que no existe emisión de ``Romualdo'' que no tenga algúna publicidad de alguno de sus productos''} \\
+
+El resultado vacío de la consulta se debe a que no hay ningún anunciante con anuncios en todas las emisiones de ``Romualdo''. En particular, hay 14 emisiones de programas de ``Romualdo'' a la semana, y ningún anunciante llega a esa cantidad de publicidades entre todos sus productos. Con lo cual, resulta evidente que no existe anunciante alguno que cumpla con la condición pedida. \\
+
+\subsubsection*{Consulta (2)}
+
+\begin{lstlisting} 
+select razon_social
+from anunciante a
+where not exists (
+    -- Los programas de 'Romualdo'.
+    select 1
+    from productor pdt, produccion pdc
+    where razon_social = 'Romualdo' and
+          pdt.cuit = pdc.cuit and 
+          not exists (-- Los espacios donde se publicita algún producto de 'a'
+                      select 1 
+                      from espacio e, publicidad pub, anuncio an
+                      where e.cod_prog = pdc.cod_prog and
+                            e.dia = pub.dia and e.hora = pub.hora and
+                            pub.titulo = an.titulo and
+                            an.cuenta = a.cuenta ))
+\end{lstlisting}
+
+\subsubsection*{Resultado (2)}
+\begin{tabular}{|l|}
   \hline
-    \bf{CAMPO1} & \bf{CAMPO2} \\ 
+    \bf{RAZON_SOCIAL} \\ 
   \hline
-    c11 & c21 \\ 
-    c21 & c22 \\
+    Ricardo Perez \\ 
+    Juan Uncio \\
   \hline
 \end{tabular} 
+
+\subsubsection*{Comentarios (2)}
+En esta otra consulta se buscan los anunciantes que tienen al menos un anuncio en alguna emisión de todos los programas de ``Romualdo''. Ésta se puede leer como \textit{``Los anunciantes tales que no existe programa de ``Romualdo'' que no tenga alguna publicidad de alguno de los productos del anunciante en alguna de sus emisiones''}. La diferencia fundamental con la consulta anterior es que la condición se reduce sólo a todos los programas, que en el caso de ``Romualdo'' son sólo 2. Los anunciantes que tengan algún anuncio en alguna emisión de ambos programas ya cumplirán con la condición. \\
 
 \subsection*{10. \normalsize{El nombre de los programas que se emiten en todos los d\'ias en que al menos una vez sean utilizados todos los m\'oviles por cualquiera de los programas emitidos en ese d\'ia.}}
 
@@ -345,7 +383,7 @@ where not exists (select estudio from estudio
 
 \end{lstlisting}
 
-\subsubsection*{Resultados}
+\subsubsection*{Resultado}
 \begin{tabular}{|l|l|}
   \hline
     \bf{CAMPO1} & \bf{CAMPO2} \\ 
